@@ -1,0 +1,7 @@
+*.log
+node_modules
+dist
+*.sublime-*
+config.json
+res/
+build/

@@ -1,0 +1,22 @@
+{
+  "root": true,
+  "parser": "babel-eslint",
+  "extends": "airbnb",
+  "plugins": [
+    "react"
+  ],
+  "rules": {
+    "no-unused-vars": [2, {"varsIgnorePattern": "^React$"}],
+    "no-console": 1,
+    "no-debugger": 1,
+    "no-restricted-syntax": 1
+  },
+  "parserOptions": {
+    "ecmaFeatures": {
+      "experimentalObjectRestSpread": true
+    }
+  },
+  "globals": {
+    "STANDARD_WELCOME_PAGE": false
+  }
+}
