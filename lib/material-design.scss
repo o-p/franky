@@ -1,0 +1,19 @@
+$timing-standard: cubic-bezier(0.4, 0.0, 0.2, 1); // 物件在螢幕中因為使用者操作而變化 (可能尺寸改變)
+$timing-deceleration: cubic-bezier(0.0, 0.0, 0.2, 1); // 物件進入螢幕 (可能透明度低到高及尺寸改變)
+$timing-acceleration: cubic-bezier(0.4, 0.0, 1, 1); // 物件離開螢幕 (可能伴隨透明／尺寸改變)
+$timing-sharp: cubic-bezier(0.4, 0.0, 0.6, 1); // 物件離開，但可能再次出現
+​
+%material-design-reference {
+/*
+  material.google.com/motion/duration-easing.html#duration-easing-natural-easing-curves
+
+  基本上裝置越大越久、移動距離越大越久，唯獨桌機例外，桌機動畫應該在0.15 ~ 0.2秒間
+  因為桌機上動畫的提示效果不好
+
+  移動裝置動畫秒數參考:
+  - 巨大變化(變成全螢幕之類的) - 375ms (0.375秒)
+  - 物件進入畫面 - 275ms
+  - 物件離開畫面 - 195ms
+  (平板約 +30%, 穿戴裝置約 -30%)
+*/
+}

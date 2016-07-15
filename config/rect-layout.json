@@ -1,0 +1,90 @@
+{
+  "api": "./update",
+  "title": "非滿版製作",
+  "pathPortraitExample": "https://path/to/port-example.zip",
+  "pathLandscapeExample": "https://path/to/land-example.zip",
+  "pathExport": "https://path/to/export",
+  "previewUrl": "https://kkbox-ad-event.s3.amazonaws.com/equals/index.html",
+  "layout": {
+    "portrait": [
+      [
+        {
+          "hint": "960x864",
+          "name": "portrait-background",
+          "text": "底圖",
+          "fileType": "svg"
+        }, {
+          "hint": "960x864",
+          "name": "portrait-hero-image",
+          "text": "主圖",
+          "fileType": "jpg"
+        }, {
+          "hint": "470x130",
+          "name": "portrait-text-image",
+          "text": "文案圖",
+          "fileType": "svg"
+        }, {
+          "hint": "228x28",
+          "name": "portrait-go-premium",
+          "text": "會員升級圖",
+          "fileType": "svg"
+        }
+      ], [
+        {
+          "name": "portrait-playit",
+          "text": "自行選歌圖檔",
+          "fileType": "svg"
+        }, {
+          "name": "portrait-playlist",
+          "text": "品牌選歌圖檔",
+          "fileType": "svg",
+          "type": "playlist-button"
+        }, {
+          "name": "playlist-id",
+          "text": "輸入歌單編號",
+          "type": "playlist-id"
+        }
+      ]
+    ],
+    "landscape": [
+      [
+        {
+          "hint": "1040x520",
+          "name": "landscape-background",
+          "text": "底圖",
+          "fileType": "svg"
+        }, {
+          "hint": "1040x520",
+          "name": "landscape-hero-image",
+          "text": "主圖",
+          "fileType": "jpg"
+        }, {
+          "hint": "750x45",
+          "name": "landscape-text",
+          "text": "文案圖",
+          "fileType": "svg"
+        }, {
+          "hint": "228x28",
+          "name": "landscape-go-premium",
+          "text": "會員升級圖",
+          "fileType": "svg"
+        }
+      ], [
+        {
+          "name": "landscape-playit",
+          "text": "自行選歌圖檔",
+          "fileType": "svg"
+        }, {
+          "name": "landscape-playlist",
+          "text": "品牌選歌圖檔",
+          "fileType": "svg",
+          "type": "playlist-button"
+        }, {
+          "name": "playlist-id",
+          "text": "輸入歌單編號",
+          "type": "playlist-id"
+        }
+      ]
+    ]
+  }
+}

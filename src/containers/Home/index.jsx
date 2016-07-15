@@ -1,28 +1,22 @@
 import './styles.scss';
 
-// import injectTapEventPlugin from 'react-tap-event-plugin';
 import ExecutionEnvironment from 'fbjs/lib/ExecutionEnvironment';
-// import FlatButton from 'material-ui/FlatButton';
-// import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider';
-// import getMuiTheme from 'material-ui/styles/getMuiTheme';
 import FullPage from '../../components/FullPage';
 import Logo from '../../components/LogoKKBOX';
 import React, { createElement, Component } from 'react';
 
+import Config from 'config/home.json'; // eslint-disable-line import/no-unresolved
 import pathBackground from './home-background.jpg';
 import pathLandingText from './text.svg';
 
-// injectTapEventPlugin();
-
 export default class Home extends Component {
-  // static Theme = getMuiTheme({
-  //   userAgent: navigator && navigator.userAgent || 'false',
-  // });
-
   static ClassNames = {
+    ButtonFull: 'button full-layout',
+    ButtonRect: 'button rect-layout',
     ButtonsWrapper: 'buttons',
     ContentWrapper: 'contents',
     FilterImage: 'filter-image',
+    HoverEffectLayer: 'hover-effect',
     LandingText: 'landing-text',
     Logo: 'logo',
   };
@@ -39,7 +33,7 @@ export default class Home extends Component {
   static Forms = {
     FullLayout: createElement('form', {
       key: 'full-layout-form',
-      action: './full',
+      action: Config.API_FULL_LAYOUT,
       id: Home.Ids.FullLayout,
       method: 'post',
       name: Home.Ids.FullLayout,
@@ -47,7 +41,7 @@ export default class Home extends Component {
     }),
     RectangleLayout: createElement('form', {
       key: 'rect-layout-form',
-      action: './rect',
+      action: Config.API_RECT_LAYOUT,
       id: Home.Ids.RectangleLayout,
       method: 'post',
       name: Home.Ids.RectangleLayout,
@@ -62,10 +56,10 @@ export default class Home extends Component {
 
   static Texts = {
     Landing: createElement('img', {
-      className: Home.ClassNames.LandingText,
       key: Home.Keys.LandingText,
+      alt: 'It all starts with a stunnung welcome page. Create your, It\'s easy and free.',
+      className: Home.ClassNames.LandingText,
       src: Home.Pathes.LandingText,
-      alt: 'It all starts with ',
     }),
   };
 
@@ -76,6 +70,11 @@ export default class Home extends Component {
     this.onBackgroundLoaded = () => this.setState({
       containerClassName: 'loaded',
     });
+    this.onBackgroundFailed = () => {
+      this.setState({
+        containerClassName: 'failed',
+      });
+    };
   }
 
   componentWillMount() {
@@ -83,6 +82,7 @@ export default class Home extends Component {
     if (ExecutionEnvironment.canUseDOM) {
       const backgroundImage = new Image();
       backgroundImage.onload = this.onBackgroundLoaded;
+      backgroundImage.onerror = this.onBackgroundFailed;
       backgroundImage.src = Home.Pathes.BackgroundImage;
     }
 
@@ -90,54 +90,33 @@ export default class Home extends Component {
       className: Home.ClassNames.FilterImage,
       key: Home.Keys.FilterImage,
     });
-  }
 
-  get buttons() {
-    // const buttonFullLayout = createElement(FlatButton, {
+    const hoverEffectLayer = createElement.bind(this, 'div', {
+      className: Home.ClassNames.HoverEffectLayer,
+    });
+
+    // buttons:
     const buttonFullLayout = createElement('button', {
       key: 'full',
-      // backgroundColor: '#FFF',
-      className: 'button full-layout',
-      // hoverColor: '#00ACCC',
-      // rippleColor: '#006C88',
-      // style: {
-      //   height: 60,
-      //   lineHeight: '60px',
-      //   borderRadius: 30,
-      //   color: '#939393',
-      // },
-      type: 'submit',
+      className: Home.ClassNames.ButtonFull,
       form: Home.Ids.FullLayout,
-    }, '滿版');
+      type: 'submit',
+    }, hoverEffectLayer('滿版'));
 
-    // const buttonRectLayout = createElement(FlatButton, {
     const buttonRectLayout = createElement('button', {
       key: 'rect',
-      // backgroundColor: '#FFF',
-      className: 'button rect-layout',
-      // hoverColor: '#00ACCC',
-      // rippleColor: '#006C88',
-      // style: {
-      //   height: 60,
-      //   lineHeight: '60px',
-      //   borderRadius: 30,
-      //   color: '#939393',
-      // },
-      type: 'submit',
+      className: Home.ClassNames.ButtonRect,
       form: Home.Ids.RectangleLayout,
-    }, '非滿版');
+      type: 'submit',
+    }, hoverEffectLayer('非滿版'));
 
-    const buttonWrapper = createElement('div', {
+    this.buttons = createElement('div', {
+      key: Home.Keys.ButtonsWrapper,
       className: Home.ClassNames.ButtonsWrapper,
     }, [
       buttonFullLayout,
       buttonRectLayout,
     ]);
-
-    // return createElement(MuiThemeProvider, {
-    return createElement('div', {
-      key: Home.Keys.ButtonsWrapper,
-    }, buttonWrapper);
   }
 
   get contents() {

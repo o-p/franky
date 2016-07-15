@@ -1,0 +1,25 @@
+.panel {
+  display: block;
+  width: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  margin: 0 auto 22px auto;
+  // height: auto;
+
+  .panel-title {
+    background-color: #E8E8E8;
+    color: #000;
+    height: 56px;
+    line-height: 56px;
+    font-size: 18px;
+    overflow: hidden;
+    width: 100%;
+    padding: 0 22px;
+  }
+  .panel-body {
+    padding: 16px 22px 0 22px;
+    &::after {
+      display: table;
+      content: ' ';
+    }
+  }
+}

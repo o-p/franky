@@ -1,0 +1,28 @@
+@import 'lib/material-design';
+
+.drop-button {
+  position: relative;
+  width: 160px;
+  height: 36px;
+  float: left;
+  margin-right: 1em;
+
+  .drop-button-icon {
+    position: absolute;
+    left: 6px;
+    top: 6px;
+    opacity: 0;
+    transition: opacity 0.3s $timing-standard;
+  }
+
+  &.active {
+    .drop-button-icon.valid {
+      opacity: 1;
+    }
+  }
+  &.reject {
+    .drop-button-icon.invalid {
+      opacity: 1;
+    }
+  }
+}

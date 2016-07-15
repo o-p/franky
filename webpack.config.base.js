@@ -6,11 +6,19 @@ var HtmlPack = require('html-webpack-plugin');
 module.exports = {
   module: {
     preLoaders: [
-      { test: /\.jsx?$/, loader: "eslint-loader?failOnError=true", include: [path.resolve(__dirname, 'src')] }
+      {
+        test: /\.jsx?$/,
+        loader: "eslint-loader?failOnError=true",
+        include: [path.resolve(__dirname, 'src')]
+      }
     ],
     loaders: [
-      { test: /\.jsx?$/, loader: 'babel', include: [ path.resolve(__dirname, 'src') ] },
-      { test: /\.js$/, loader: 'script', include: [ path.resolve(__dirname, 'lib') ] },
+      {
+        test: /\.jsx?$/,
+        loader: 'babel',
+        include: [path.resolve(__dirname, 'src')]
+      },
+      // { test: /\.js$/, loader: 'script', include: [ path.resolve(__dirname, 'lib') ] },
       {
         test: /\.scss$/,
         loader: ExtractTextPlugin.extract('style-loader', '!css!sass'),
@@ -22,16 +30,16 @@ module.exports = {
   },
   output: {
     filename: '[name].js',
-    chunkFilename: 'component-[id].js',
-    path: 'dist', // 這邊都用dist 方便上傳到dev server, production 會改到event_name目錄下
+    path: 'dist',
     library: 'AST',
     libraryTarget: 'umd',
   },
   resolve: {
     extensions: ['', '.js', '.jsx'],
     alias: {
-      images: path.resolve('./images'),
-      lib: path.resolve('./lib'),
+      // images: path.resolve('./images'),
+      lib: path.resolve('images'),
+      config: path.resolve('config'),
     }
   },
   plugins: [

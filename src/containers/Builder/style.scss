@@ -1,0 +1,139 @@
+@import 'lib/bourbon/bourbon';
+@import 'lib/material-design';
+
+
+$light-blue: #00BCD4;
+$light-gray: rgba(200, 200, 200, 0.3);
+$black: #000;
+
+%spec-iphone5 {
+  width: 320px;
+  height: 568px;
+}
+%spec-web-client {
+  width: 820px;
+  height: 520px;
+}
+
+.builder-wrapper {
+  width: 100%;
+  padding: 0 16px 36px 16px;
+
+  .zh { color: $light-blue; font-weight: bold; }
+  .en { color: $black; font-size: 0.9em; margin-left: 0.6em; font-weight: bold; }
+
+  // 滿版製作
+  .head-title {
+    width: 100%;
+    height: 52px;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 52px;
+    margin: 0;
+  }
+
+  .contents {
+    width: 100%;
+
+    .hints { // 下載範例檔
+      line-height: 2;
+
+      .download-link {
+        text-decoration: none;
+        display: inline-block;
+        // cursor: pointer;
+        color: $light-blue;
+        padding: 0 0.5em;
+        margin-left: 0.3em;
+        transition: background-color 0.3s $timing-standard;
+        border-radius: 3px;
+
+        &:hover {
+          background-color: $light-gray;
+        }
+      }
+    }
+
+
+    // 預覽圖檔
+    .title-previews {
+      color: $light-blue;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .buttons-wrapper {
+      width: 100%;
+
+      .buttons-row {
+        width: 100%;
+        display: block;
+        margin: 0.5em 0 2em;
+
+        .button-text { font-size: 14px; }
+        .button-hint { font-size: 12px; color: #555555; margin-left: 0.5em; }
+
+        // 品牌選歌圖檔 | 輸入歌單編號
+        .playlist-field {
+          height: 36px;
+          float: left;
+
+          // 輸入歌單編號
+          .text {
+            font-size: 0.9em;
+            line-height: 36px;
+            margin-right: 8px;
+          }
+        }
+
+        &::after {
+          display: table;
+          content: ' ';
+          clear: both;
+        }
+      }
+
+    }
+
+    .previews {
+      width: 100%;
+      margin-bottom: 56px;
+
+      .preview-wrapper {
+        position: relative;
+        display: block;
+        float: left;
+
+        &.land { @extend %spec-web-client; }
+        &.port { @extend %spec-iphone5; }
+        &:nth-child(2n + 1) { margin-right: 40px; }
+
+        .iframe, .simulate-ui {
+          position: absolute;
+          left: 0;
+          right: 0;
+          top: 0;
+          border: none;
+          outline: none;
+        }
+        .iframe { z-index: 3; width: 100%; height: 100%; }
+        .simulate-ui { z-index: 4; }
+      }
+
+      &::after {
+        display: table;
+        content: ' ';
+        clear: both;
+      }
+    }
+
+    .export-wrapper {
+      text-align: center;
+
+      .export-button {
+        width: 240px;
+      }
+    }
+
+  }
+}

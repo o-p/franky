@@ -1,6 +1,16 @@
 @import 'lib/bourbon/bourbon';
 
+// @include keyframes(backgroundFadeIn) {
+//   from {
+//     background-color: rgba(255, 255, 255, 0);
+//   }
+//   to {
+//     background-color: rgba(255, 255, 255, 1);
+//   }
+// }
+
 .full-page {
+  @include background(radial-gradient(circle farthest-corner at 95% 0%, #fffbef 0%, #c5815a 50%, #503323 100%));
 
   .inner-wrapper {
     background-image: url('./home-background.jpg');
@@ -62,32 +72,41 @@
         width: 554px;
         height: 60px;
         margin: 100px auto 0;
-        // font-size: 24px;
-        // opacity: 0;
-        // transition: opacity 0.15s cubic-bezier(0.4, 0.0, 0.2, 1) 1.1s;
 
         .button {
-          background-color: #FFF;
           border-radius: 30px;
+          overflow: hidden;
           border: none;
-          color: #939393;
           cursor: pointer;
-          font-size: 24px;
+          font-size: 28px;
           height: 60px;
           line-height: 60px;
           margin: 0;
-          // max-width: 60px;
           outline: none;
           padding: 0;
-          transition: box-shadow 0.3s cubic-bezier(0.4, 0.0, 0.2, 1);
           width: 240px;
+          opacity: 0;
+          transition: opacity 1s cubic-bezier(0.4, 0.0, 0.2, 1) 1s;
+          background-color: #FFF;
 
           &.full-layout { float: left; }
           &.rect-layout { float: right; }
-          &:hover {
-            color: #FFF;
-            background-color: #00ACCC;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+          // &:hover {
+          //   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+          // }
+
+          .hover-effect {
+            background-color: rgba(0, 172, 204, 0);
+            display: block;
+            width: 100%;
+            height: 100%;
+            color: #939393;
+            transition: all 0.15s cubic-bezier(0.4, 0.0, 0.2, 1);
+
+            &:hover {
+              color: #FFF;
+              background-color: rgba(0, 172, 204, 1);
+            }
           }
         }
       }
@@ -102,15 +121,19 @@
 
     &.loaded {
       .filter-image { opacity: 1; }
+    }
+
+    &.failed, &.loaded { // background load error
       .logo { @include transform(translate3d(0, 0, 0)); opacity: 1; }
       .contents {
         .landing-text {
           @include transform(translate3d(0, 0, 0)); opacity: 1;
         }
-        // .buttons {
-        //   opacity: 1;
-        //   .button { max-width: 300px; }
-        // }
+        .buttons {
+          .button {
+            opacity: 1;
+          }
+        }
       }
     }
   }
