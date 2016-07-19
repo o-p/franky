@@ -1,4 +1,5 @@
 import './style.scss';
+
 import pathPortUi from './ui-iphone5.svg';
 
 import React, { createElement, Component, PropTypes } from 'react';
@@ -115,8 +116,10 @@ export default class Builder extends Component {
     super(props);
     this.handleFileChange = this.handleFileChange.bind(this);
     this.onPlaylistIdChange = this.onPlaylistIdChange.bind(this);
-    this.togglePlaylist = () => this.setState({ hasPlaylist: !this.state.hasPlaylist });
+    this.togglePlaylist = this.togglePlaylist.bind(this);
     this.refreshAll = this.refreshAll.bind(this);
+    this.handlePlaylistKeyDown = this.handlePlaylistKeyDown.bind(this);
+    this.updatePlaylist = this.updatePlaylist.bind(this);
 
     const { config } = props;
     const updateApi = update(config.api);
@@ -133,6 +136,7 @@ export default class Builder extends Component {
       hasPlaylist: false,
       playlistId: '',
     };
+    this.originPlaylistId = this.state.playlistId;
 
     this.texts = Object.assign({}, Builder.Texts, {
 
@@ -212,9 +216,17 @@ export default class Builder extends Component {
     });
   }
 
+  togglePlaylist() {
+    const hasPlaylist = !this.state.hasPlaylist;
+    const rootClassName = hasPlaylist ? 'layout-2-buttons' : 'layout-1-button';
+    this.setState({ hasPlaylist });
+    return this.update('var', 'ROOT_CLASSNAME', rootClassName)
+        .then(this.refreshAll);
+  }
+
   // 圖檔改變
   handleFileChange(file, name) {
-    return this.update('file', name, file.name, file)
+    return this.update('file', 'filename', name, file)
                .then(this.refreshAll)
                .catch(this.refreshAll);
   }
@@ -229,6 +241,27 @@ export default class Builder extends Component {
         });
   }
 
+  handlePlaylistKeyDown(ev) {
+    if (ev.which === 13 || ev.keyCode === 13) {
+      return this.updatePlaylist();
+    }
+    return false;
+  }
+
+  updatePlaylist() {
+    const { playlistId } = this.state;
+    if (this.originPlaylistId !== playlistId) {
+      this.update('var', 'PLAYLIST_ID', playlistId)
+          .then(() => {
+            this.originPlaylistId = playlistId;
+            this.refreshAll();
+          })
+          .catch(this.refreshAll);
+      return true;
+    }
+    return false;
+  }
+
   parsePlaylistId(props) {
     const { name, text } = props;
     const label = createElement('span', {
@@ -241,6 +274,8 @@ export default class Builder extends Component {
       className: 'input',
       value: this.state.playlistId,
       onChange: this.onPlaylistIdChange,
+      onKeyDown: this.handlePlaylistKeyDown,
+      onBlur: this.updatePlaylist,
       style: Builder.Styles.PlaylistIdWrapper,
       inputStyle: Builder.Styles.PlaylistIdInput,
     });

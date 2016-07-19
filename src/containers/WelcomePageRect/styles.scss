@@ -1,0 +1,248 @@
+@import 'lib/bourbon/bourbon';
+
+%blcok-hide-on-portrait {
+  display: block;
+  @media screen and (orientation: portrait) { display: none; }
+}
+%block-hide-on-landscape {
+  display: none;
+  @media screen and (orientation: portrait) { display: block; }
+}
+%inline-blcok-on-landscape {
+  display: inline-block;
+  @media screen and (orientation: portrait) { display: none; }
+}
+%inline-block-on-portrait {
+  display: none;
+  @media screen and (orientation: portrait) { display: inline-block; }
+}
+$premium-text-size: 12px;
+$button-default-size: 40px;
+$button-gap-vertical: 16px;
+$button-gap-horizontal: 2%;
+
+* { box-sizing: border-box; }
+
+html, body {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  outline: 0;
+}
+
+.full-page {
+  // background-image: url('./background-land.jpg');
+  // background-position: center center;
+  // background-repeat: no-repeat;
+  // background-size: cover;
+
+  // @media screen and (orientation: portrait) {
+  //   background-image: url('./background-port.jpg');
+  //   background-position: center 60px;
+  // }
+  background-image: url('./overlay-land.svg');
+  background-repeat: repeat-x;
+  background-size: auto 100%;
+  background-position: top center;
+  @media screen and (orientation: portrait) {
+    background-image: url('./overlay-port.svg');
+  }
+
+  .inner-wrapper {
+    background-image: url('./background-land.jpg');
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: 100% auto;
+    @media screen and (orientation: portrait) {
+      background-image: none;
+      // background-position: center 60px;
+    }
+
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+
+    .contents {
+      width: 100%;
+      height: 56px; // fallback of 820x520 standard size
+      height: calc(50vh - 25vw);
+      min-height: 56px;
+      position: absolute;
+      bottom: 0;
+      display: block;
+      z-index: 2;
+
+      // 過寬上底色
+      @media screen and (orientation: landscape) and (min-aspect-ratio: 41/26) { // 820x520
+        background-image: url('./overlay-land.svg');
+        background-size: 100% auto;
+        background-position: center bottom;
+      }
+
+      @media screen and (orientation: portrait) {
+        height: auto;
+        position: relative;
+        top: 60px;
+        bottom: auto;
+      }
+
+      .image-port {
+        display: none;
+        @media screen and (orientation: portrait) {
+          display: block;
+          width: 100%;
+          margin-bottom: 16px;
+        }
+      }
+
+      .content {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        display: block;
+        overflow: hidden;
+        padding: 4px 16px 12px 16px;
+        @media screen and (orientation: portrait) {
+          height: auto;
+          padding: 0 32px 16px;
+        }
+
+        .texts {
+          float: left;
+          display: block;
+          width: 70%;
+          height: 100%;
+          max-height: 2 * $button-default-size;
+          overflow: hidden;
+          @media screen and (orientation: portrait) {
+            width: 100%;
+            height: auto;
+          }
+
+          .text-land {
+            height: 100%;
+            max-width: 100%;
+            @extend %blcok-hide-on-portrait;
+          }
+          .text-port {
+            width: 100%;
+            @extend %block-hide-on-landscape;
+          }
+        }
+
+        .buttons {
+          float: right;
+          overflow: hidden;
+          width: 28%;
+          height: 100%;
+          @media screen and (orientation: portrait) {
+            width: 100%;
+            margin: 16px 0;
+          }
+
+          .button {
+            border: none;
+            cursor: pointer;
+            display: block;
+            height: $button-default-size;
+            max-height: 100%;
+            outline: none;
+            overflow: hidden;
+            text-align: right;
+            width: 100%;
+
+            &.button-playlist { display: none; }
+
+            @media screen and (orientation: portrait) {
+              width: 100%;
+              text-align: center;
+            }
+
+            .button-image {
+              height: 100%;
+              display: inline-block;
+              max-width: 100%;
+              &.in-land-layout { @extend %inline-blcok-on-landscape; }
+              &.in-port-layout { @extend %inline-block-on-portrait; }
+            }
+          }
+        }
+      }
+
+      // 升級白金會員
+      .premium-land-wrapper {
+        @extend %blcok-hide-on-portrait;
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 0;
+        height: $premium-text-size;
+        cursor: pointer;
+        .premium-text {
+          height: 100%;
+          max-width: 100%;
+          display: block;
+        }
+      }
+      .premium-port-wrapper {
+        @extend %block-hide-on-landscape;
+        position: fixed;
+        bottom: 0;
+        left: 16px;
+        right: 16px;
+        text-align: center;
+        .premium-text {
+          display: inline-block;
+          height: 16px;
+          max-width: 100%;
+        }
+      }
+    }
+
+
+  }
+}
+
+.root { // #root
+  // &.layout-1-button => 1 button as default
+
+  &.layout-2-buttons {
+    .contents .content {
+      .texts {
+        width: 60%;
+        @media screen and (orientation: portrait) {
+          width: 100%;
+          height: auto;
+        }
+      }
+      .buttons {
+        width: auto;
+        max-width: 40%;
+        @media screen and (orientation: portrait) {
+          max-width: 100%;
+          width: 100%;
+          height: 2 * $button-gap-vertical + 2 * $button-default-size;;
+          margin: $button-gap-vertical 0 0 0;
+        }
+
+        .button {
+          float: left;
+          max-width: 48%;
+          margin-left: 2%;
+          width: auto;
+          &.button-playlist { display: block; }
+
+          @media screen and (orientation: portrait) {
+            max-width: none;
+            margin: 0 0 16px 0;
+            float: none;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

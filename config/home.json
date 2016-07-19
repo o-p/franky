@@ -1,5 +1,13 @@
 {
     "title": "SP Welcome Page Builder",
-    "API_FULL_LAYOUT": "../full",
-    "API_RECT_LAYOUT": "../rect"
+    "API_FULL_LAYOUT": {
+      "path": "../",
+      "key": "action",
+      "value": "full"
+    },
+    "API_RECT_LAYOUT": {
+      "path": "../",
+      "key": "action",
+      "value": "rect"
+    }
 }

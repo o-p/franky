@@ -1,0 +1,219 @@
+@import 'lib/bourbon/bourbon';
+
+%blcok-hide-on-portrait {
+  display: block;
+  @media screen and (orientation: portrait) { display: none; }
+}
+%block-hide-on-landscape {
+  display: none;
+  @media screen and (orientation: portrait) { display: block; }
+}
+%inline-blcok-on-landscape {
+  display: inline-block;
+  @media screen and (orientation: portrait) { display: none; }
+}
+%inline-block-on-portrait {
+  display: none;
+  @media screen and (orientation: portrait) { display: inline-block; }
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  display: block;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  margin: 0;
+  outline: 0;
+}
+
+.full-page {
+  background-image: url('./background-land.jpg');
+  background-position: center top;
+  background-repeat: no-repeat;
+  background-size: cover;
+
+  @media screen and (orientation: portrait) {
+    background-image: url('./background-port.jpg');
+  }
+
+  .inner-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+
+    .contents {
+      width: 100%;
+      height: 96px;
+      position: absolute;
+      bottom: 0;
+      display: block;
+      background-image: url('./overlay-land.svg');
+      background-repeat: repeat-x;
+      background-size: auto 100%;
+      background-position: top center;
+      z-index: 2;
+      @media screen and (orientation: portrait) {
+        background-image: url('./overlay-port.svg');
+        height: auto;
+      }
+
+      .content {
+        width: 100%;
+        height: 100%;
+        position: relative;
+        display: block;
+        overflow: hidden;
+        padding: 0 16px 32px 16px;
+        @media screen and (orientation: portrait) {
+          height: auto;
+          padding: 32px 16px;
+        }
+
+        .texts {
+          float: left;
+          display: block;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
+
+          .text-land {
+            height: 100%;
+            max-width: 100%;
+            @extend %blcok-hide-on-portrait;
+          }
+          .text-port {
+            width: 100%;
+            @extend %block-hide-on-landscape;
+          }
+        }
+
+        .buttons {
+          float: right;
+          overflow: hidden;
+          // text-align: right;
+          height: 100%;
+
+          .button {
+            display: block;
+            overflow: hidden;
+            height: 48px;
+            text-align: center;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            text-align: right;
+            @media screen and (orientation: portrait) { text-align: center; }
+            // margin-left: 16px;
+
+            .button-image {
+              height: 100%;
+              display: inline-block;
+              max-width: 100%;
+              &.in-land-layout { @extend %inline-blcok-on-landscape; }
+              &.in-port-layout { @extend %inline-block-on-portrait; }
+            }
+          }
+        }
+      }
+
+      // 升級白金會員
+      .premium-land-wrapper {
+        @extend %blcok-hide-on-portrait;
+        position: absolute;
+        left: 16px;
+        right: 16px;
+        bottom: 0;
+        height: 32px;
+        cursor: pointer;
+        .premium-text {
+          height: 32px;
+          max-width: 100%;
+        }
+      }
+      .premium-port-wrapper {
+        @extend %block-hide-on-landscape;
+        position: fixed;
+        bottom: 0;
+        left: 16px;
+        right: 16px;
+        text-align: center;
+        .premium-text {
+          display: inline-block;
+          height: 32px;
+          max-width: 100%;
+        }
+      }
+    }
+
+
+  }
+}
+
+.root { // #root
+  &.layout-1-button {
+    .contents .content {
+      .texts {
+        width: 70%;
+        @media screen and (orientation: portrait) {
+          width: 100%;
+          height: auto;
+        }
+      }
+      .buttons {
+        width: 28%;
+        @media screen and (orientation: portrait) {
+          width: 100%;
+          height: 48px;
+          margin: 16px 0;
+        }
+
+        .button {
+          height: 100%;
+          width: 100%;
+
+          @media screen and (orientation: portrait) {
+            width: 100%;
+          }
+        }
+
+        .button.button-playlist { display: none; }
+      }
+    }
+  }
+  &.layout-2-buttons {
+    .contents .content {
+      .texts {
+        width: 60%;
+        @media screen and (orientation: portrait) {
+          width: 100%;
+          height: auto;
+        }
+      }
+      .buttons {
+        max-width: 40%;
+        @media screen and (orientation: portrait) {
+          max-width: 100%;
+          width: 100%;
+          height: 124px;
+          margin: 16px 0 0 0;
+        }
+
+        .button {
+          float: left;
+          max-width: 48%;
+          margin-left: 2%;
+
+          @media screen and (orientation: portrait) {
+            max-width: none;
+            margin: 0 0 16px 0;
+            float: none;
+            width: 100%;
+          }
+        }
+      }
+    }
+  }
+}

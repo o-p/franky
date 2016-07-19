@@ -33,20 +33,28 @@ export default class Home extends Component {
   static Forms = {
     FullLayout: createElement('form', {
       key: 'full-layout-form',
-      action: Config.API_FULL_LAYOUT,
+      action: Config.API_FULL_LAYOUT.path,
       id: Home.Ids.FullLayout,
       method: 'post',
       name: Home.Ids.FullLayout,
       target: '_self',
-    }),
+    }, createElement('input', {
+      type: 'hidden',
+      name: Config.API_FULL_LAYOUT.key,
+      value: Config.API_FULL_LAYOUT.value,
+    })),
     RectangleLayout: createElement('form', {
       key: 'rect-layout-form',
-      action: Config.API_RECT_LAYOUT,
+      action: Config.API_RECT_LAYOUT.path,
       id: Home.Ids.RectangleLayout,
       method: 'post',
       name: Home.Ids.RectangleLayout,
       target: '_self',
-    }),
+    }, createElement('input', {
+      type: 'hidden',
+      name: Config.API_RECT_LAYOUT.key,
+      value: Config.API_RECT_LAYOUT.value,
+    })),
   };
 
   static Pathes = {
