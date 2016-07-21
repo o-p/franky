@@ -1,41 +1,41 @@
 {
-  "api": "./update",
+  "api": "../",
   "title": "滿版製作",
   "pathPortraitExample": "https://path/to/port-example.zip",
   "pathLandscapeExample": "https://path/to/land-example.zip",
-  "pathExport": "https://path/to/export",
-  "previewUrl": "https://kkbox-ad-event.s3.amazonaws.com/makeupforever-may/index.html",
+  "pathExport": "../?action=export",
+  "previewUrl": "./preview/index.html",
   "layout": {
     "portrait": [
       [
         {
           "hint": "780x1040",
-          "name": "portrait-hero-image",
+          "name": "background-port.jpg",
           "text": "主圖",
           "fileType": "jpg"
         }, {
-          "hint": "520x1040",
-          "name": "portrait-text",
+          "hint": "(svg)",
+          "name": "text-port.svg",
           "text": "文案圖",
           "fileType": "svg"
         }, {
-          "hint": "228x28",
-          "name": "portrait-go-premium",
+          "hint": "(svg)",
+          "name": "premium-port.svg",
           "text": "會員升級圖",
           "fileType": "svg"
         }, {
-          "hint": "780x1040",
-          "name": "portrait-background",
+          "hint": "(svg)",
+          "name": "overlay-port.svg",
           "text": "漸層圖",
           "fileType": "svg"
         }
       ], [
         {
-          "name": "portrait-playit",
+          "name": "button-playit-port.svg",
           "text": "自行選歌圖檔",
           "fileType": "svg"
         }, {
-          "name": "portrait-playlist",
+          "name": "button-playlist-port.svg",
           "text": "品牌選歌圖檔",
           "fileType": "svg",
           "type": "playlist-button"
@@ -50,32 +50,32 @@
       [
         {
           "hint": "780x1040",
-          "name": "landscape-hero-image",
+          "name": "background-land.jpg",
           "text": "主圖",
           "fileType": "jpg"
         }, {
-          "hint": "520x1040",
-          "name": "landscape-text",
+          "hint": "(svg)",
+          "name": "text-land.svg",
           "text": "文案圖",
           "fileType": "svg"
         }, {
-          "hint": "228x28",
-          "name": "landscape-go-premium",
+          "hint": "(svg)",
+          "name": "premium-land.svg",
           "text": "會員升級圖",
           "fileType": "svg"
         }, {
-          "hint": "780x1040",
-          "name": "landscape-background",
+          "hint": "(svg)",
+          "name": "overlay-land.svg",
           "text": "漸層圖",
           "fileType": "svg"
         }
       ], [
         {
-          "name": "landscape-playit",
+          "name": "button-playit-land.svg",
           "text": "自行選歌圖檔",
           "fileType": "svg"
         }, {
-          "name": "landscape-playlist",
+          "name": "button-playlist-land.svg",
           "text": "品牌選歌圖檔",
           "fileType": "svg",
           "type": "playlist-button"

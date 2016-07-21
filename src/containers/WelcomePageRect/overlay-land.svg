@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg
+  version="1.1"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+	viewBox="0 0 820 520"
+  xml:space="preserve"
+>
+  <defs>
+    <linearGradient
+      id="MyGradient"
+      x1="0"
+      y1="0"
+      x2="0"
+      y2="1"
+    >
+    	<stop  offset="0%" stop-color="#408BAB" stop-opacity="1" />
+    	<stop  offset="85%" stop-color="#D5C9AF" stop-opacity="1" />
+    </linearGradient>
+  </defs>
+
+  <rect
+    fill="url(#MyGradient)"
+    stroke-width="0"
+    class="st0"
+    width="820" height="520"
+    x="0" y="0"
+  />
+</svg>

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg
+  version="1.1"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  viewBox="0 0 120 30"
+  xml:space="preserve"
+>
+  <rect
+    x="0" y="0" rx="3" ry="3"
+    width="120"
+    height="30"
+    style="fill: #CC0000; opacity: 0.6;"
+  />
+
+  <text x="5" y="15"
+        style="font-family: Times New Roman;
+               font-size: 13;
+               fill: yellow;">
+    歌單
+  </text>
+  <text x="12" y="28"
+        style="font-size: 9;
+               fill: #FFFFFF;
+               opacity: 0.6">
+    button-playlist-land.svg
+  </text>
+</svg>

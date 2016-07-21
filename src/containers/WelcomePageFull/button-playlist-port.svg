@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg
+  version="1.1"
+  xmlns="http://www.w3.org/2000/svg"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  viewBox="0 0 220 30"
+  xml:space="preserve"
+>
+  <polygon
+    x="0" y="0"
+    points="5 5, 120 30, 30 50, 210 20, 180 28, 60 20, 0 30, 190 5"
+    style="fill: #228866; opacity: 0.6;"
+  />
+
+  <text x="45" y="20"
+        style="font-family: Times New Roman;
+               font-size: 14;
+               fill: #FFFFFF;">
+    歌單(button-playlist-port.svg)
+  </text>
+</svg>
