@@ -17,6 +17,11 @@
   @media screen and (orientation: portrait) { display: inline-block; }
 }
 
+$premium-text-size: 14px;
+$button-default-size: 40px;
+$button-gap-vertical: 16px;
+$button-gap-horizontal: 2%;
+
 * { box-sizing: border-box; }
 
 html, body {
@@ -46,7 +51,7 @@ html, body {
 
     .contents {
       width: 100%;
-      height: 96px;
+      height: 72px;
       position: absolute;
       bottom: 0;
       display: block;
@@ -66,7 +71,7 @@ html, body {
         position: relative;
         display: block;
         overflow: hidden;
-        padding: 0 16px 32px 16px;
+        padding: 0 16px (2px+$premium-text-size) 16px;
         @media screen and (orientation: portrait) {
           height: auto;
           padding: 32px 16px;
@@ -75,10 +80,14 @@ html, body {
         .texts {
           float: left;
           display: block;
-          width: 100%;
           height: 100%;
           overflow: hidden;
-
+          width: 70%;
+          padding-right: 2%;
+          @media screen and (orientation: portrait) {
+            width: 100%;
+            height: auto;
+          }
           .text-land {
             height: 100%;
             max-width: 100%;
@@ -93,20 +102,28 @@ html, body {
         .buttons {
           float: right;
           overflow: hidden;
-          // text-align: right;
-          height: 100%;
+          height: $button-default-size;
+          width: 28%;
+          @media screen and (orientation: portrait) {
+            width: 100%;
+            height: $button-default-size;
+            margin: 16px 0;
+          }
 
           .button {
             display: block;
             overflow: hidden;
-            height: 48px;
-            text-align: center;
+            height: $button-default-size;
             border: none;
             cursor: pointer;
             outline: none;
             text-align: right;
-            @media screen and (orientation: portrait) { text-align: center; }
-            // margin-left: 16px;
+            width: 100%;
+            &.button-playlist { display: none; }
+
+            @media screen and (orientation: portrait) {
+              text-align: center;
+            }
 
             .button-image {
               height: 100%;
@@ -126,11 +143,12 @@ html, body {
         left: 16px;
         right: 16px;
         bottom: 0;
-        height: 32px;
+        height: $premium-text-size;
         cursor: pointer;
         .premium-text {
-          height: 32px;
+          height: 100%;
           max-width: 100%;
+          display: block;
         }
       }
       .premium-port-wrapper {
@@ -142,7 +160,7 @@ html, body {
         text-align: center;
         .premium-text {
           display: inline-block;
-          height: 32px;
+          height: $premium-text-size;
           max-width: 100%;
         }
       }
@@ -153,36 +171,6 @@ html, body {
 }
 
 .root { // #root
-  &.layout-1-button {
-    .contents .content {
-      .texts {
-        width: 70%;
-        @media screen and (orientation: portrait) {
-          width: 100%;
-          height: auto;
-        }
-      }
-      .buttons {
-        width: 28%;
-        @media screen and (orientation: portrait) {
-          width: 100%;
-          height: 48px;
-          margin: 16px 0;
-        }
-
-        .button {
-          height: 100%;
-          width: 100%;
-
-          @media screen and (orientation: portrait) {
-            width: 100%;
-          }
-        }
-
-        .button.button-playlist { display: none; }
-      }
-    }
-  }
   &.layout-2-buttons {
     .contents .content {
       .texts {
@@ -194,6 +182,8 @@ html, body {
       }
       .buttons {
         max-width: 40%;
+        width: auto;
+        height: 2 * $button-default-size + 2 * $button-gap-vertical;
         @media screen and (orientation: portrait) {
           max-width: 100%;
           width: 100%;
@@ -205,6 +195,7 @@ html, body {
           float: left;
           max-width: 48%;
           margin-left: 2%;
+          &.button-playlist { display: block; }
 
           @media screen and (orientation: portrait) {
             max-width: none;

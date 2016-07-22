@@ -31,25 +31,9 @@ function toPostRequest(url, data, file, options) {
 
 export default apiPath => options => {
   const { data, file, ...rest } = Object.assign({}, options);
+  Object.assign(data, {
+    action: 'update',
+  });
   const request = toPostRequest(apiPath, data, file, rest);
   return fetch(request);
 };
-
-// export default apiPath => options => {
-//   const { data, file } = Object.assign({}, options);
-
-//   const serializedData = Object.keys(data)
-//                                .map(key => `${key}=${data[key]}`)
-//                                .join('&');
-
-//   if (file) {
-//     return new Promise(res => upload(file, apiPath, serializedData, res));
-//   }
-//   return new Promise(res => post(apiPath, serializedData, res));
-//   // return ajax.post(apiPath, {
-//   //   data: dataAll,
-//   // }, )
-//   // const request = toPostRequest(apiPath, data, file, rest);
-//   // return fetch(request).then(res => res.json());
-// };
-
