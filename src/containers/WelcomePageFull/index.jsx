@@ -25,10 +25,7 @@ const KKBOXProtocol = {
   PortalGoPremiumLink: 'http://www.kkbox.com/client/billing.php',
 };
 
-const HAS_PLAYLIST = false;
-
 const DEFAULT_CONFIG = {
-  ROOT_CLASSNAME: HAS_PLAYLIST ? 'layout-2-buttons' : 'layout-1-button',
   PLAYLIST_ID: '%PLAYLIST_ID%',
 };
 
@@ -61,9 +58,18 @@ export default class WelcomePageFull extends Component {
     ButtonImageInPortrait: 'port',
   });
 
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+    this.tracking = ExecutionEnvironment.canUseDOM ?
+      window.Ast.tracking :
+      () => { };
+    this.onPageLeave = ExecutionEnvironment.canUseDOM ?
+      window.Ast.logStayTime :
+      () => {};
+    this.onPlayitClick = this.onPlayitClick.bind(this);
+    this.onPlaylistClick = this.onPlaylistClick.bind(this);
+    this.onPremiumClick = this.onPremiumClick.bind(this);
+  }
 
   componentWillMount() {
     this.links = {
@@ -147,6 +153,8 @@ export default class WelcomePageFull extends Component {
       key: WelcomePageFull.Keys.PremiumLandWrapper,
       className: WelcomePageFull.ClassNames.PremiumLandWrapper,
       href: this.links.goPremium,
+      onClick: this.onPremiumClick,
+      target: '_blank',
     }, createElement('img', {
       key: WelcomePageFull.Keys.PremiumLand,
       src: pathGoPremiumLand,
@@ -158,12 +166,45 @@ export default class WelcomePageFull extends Component {
       key: WelcomePageFull.Keys.PremiumPortWrapper,
       className: WelcomePageFull.ClassNames.PremiumPortWrapper,
       href: this.links.goPremium,
+      onClick: this.onPremiumClick,
+      target: '_blank',
     }, createElement('img', {
       key: WelcomePageFull.Keys.PremiumPort,
       src: pathGoPremiumPort,
       className: WelcomePageFull.ClassNames.PremiumPort,
       alt: '不想看廣告，升級白金會員',
     }));
+  }
+
+  onPremiumClick() {
+    this.onPageLeave();
+
+    return this.tracking({
+      hitType: 'event',
+      eventCategory: 'Standard',
+      eventAction: 'GoPremium',
+    });
+  }
+
+  onPlayitClick() {
+    this.onPageLeave();
+
+    return this.tracking({
+      hitType: 'event',
+      eventCategory: 'Standard',
+      eventAction: 'GoPlay',
+    });
+  }
+
+  onPlaylistClick() {
+    this.onPageLeave();
+
+    return this.tracking({
+      hitType: 'event',
+      eventCategory: 'Standard',
+      eventAction: 'GoPlaylist',
+      eventLabel: WelcomePageFull.Config.PLAYLIST_ID,
+    });
   }
 
   get contents() {
@@ -184,9 +225,7 @@ export default class WelcomePageFull extends Component {
   }
 
   render() {
-    return createElement(FullPage, {
-      // className: WelcomePageFull.Config.ROOT_CLASSNAME, => 改用php直接寫在#root上
-    }, this.contents);
+    return createElement(FullPage, null, this.contents);
   }
 }
 

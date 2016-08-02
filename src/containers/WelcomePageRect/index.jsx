@@ -4,7 +4,6 @@ import ExecutionEnvironment from 'fbjs/lib/ExecutionEnvironment';
 import FullPage from '../../components/FullPage';
 import React, { createElement, Component } from 'react';
 
-// import pathLandImage from './background-land.jpg';
 import pathPortImage from './background-port.jpg';
 
 import pathLandText from './text-land.svg';
@@ -28,10 +27,7 @@ const KKBOXProtocol = {
   PortalGoPremiumLink: 'http://www.kkbox.com/client/billing.php',
 };
 
-const HAS_PLAYLIST = false;
-
 const DEFAULT_CONFIG = {
-  ROOT_CLASSNAME: HAS_PLAYLIST ? 'layout-2-buttons' : 'layout-1-button',
   PLAYLIST_ID: '%PLAYLIST_ID%',
 };
 
@@ -65,9 +61,21 @@ export default class WelcomePageRect extends Component {
     ButtonImageInPortrait: 'port',
   });
 
-  // constructor(props) {
-  //   super(props);
-  // }
+  constructor(props) {
+    super(props);
+    this.tracking = ExecutionEnvironment.canUseDOM ?
+      window.Ast.tracking :
+      () => { };
+    this.onPageLeave = ExecutionEnvironment.canUseDOM ?
+      window.Ast.logStayTime :
+      () => {};
+    // this.tracking = ExecutionEnvironment.canUseDOM ?
+    //     (...args) => window.ga('send', ...args) :
+    //     () => {};
+    this.onPlayitClick = this.onPlayitClick.bind(this);
+    this.onPlaylistClick = this.onPlaylistClick.bind(this);
+    this.onPremiumClick = this.onPremiumClick.bind(this);
+  }
 
   componentWillMount() {
     this.links = {
@@ -158,6 +166,8 @@ export default class WelcomePageRect extends Component {
       key: WelcomePageRect.Keys.PremiumLandWrapper,
       className: WelcomePageRect.ClassNames.PremiumLandWrapper,
       href: this.links.goPremium,
+      onClick: this.onPremiumClick,
+      target: '_blank',
     }, createElement('img', {
       key: WelcomePageRect.Keys.PremiumLand,
       src: pathGoPremiumLand,
@@ -169,12 +179,45 @@ export default class WelcomePageRect extends Component {
       key: WelcomePageRect.Keys.PremiumPortWrapper,
       className: WelcomePageRect.ClassNames.PremiumPortWrapper,
       href: this.links.goPremium,
+      onClick: this.onPremiumClick,
+      target: '_blank',
     }, createElement('img', {
       key: WelcomePageRect.Keys.PremiumPort,
       src: pathGoPremiumPort,
       className: WelcomePageRect.ClassNames.PremiumPort,
       alt: '不想看廣告，升級白金會員',
     }));
+  }
+
+  onPremiumClick() {
+    this.onPageLeave();
+
+    return this.tracking({
+      hitType: 'event',
+      eventCategory: 'Standard',
+      eventAction: 'GoPremium',
+    });
+  }
+
+  onPlayitClick() {
+    this.onPageLeave();
+
+    return this.tracking({
+      hitType: 'event',
+      eventCategory: 'Standard',
+      eventAction: 'GoPlay',
+    });
+  }
+
+  onPlaylistClick() {
+    this.onPageLeave();
+
+    return this.tracking({
+      hitType: 'event',
+      eventCategory: 'Standard',
+      eventAction: 'GoPlaylist',
+      eventLabel: WelcomePageRect.Config.PLAYLIST_ID,
+    });
   }
 
   get contents() {
@@ -198,9 +241,7 @@ export default class WelcomePageRect extends Component {
   }
 
   render() {
-    return createElement(FullPage, {
-      // className: WelcomePageRect.Config.ROOT_CLASSNAME, => 改用php直接寫在#root上
-    }, this.contents);
+    return createElement(FullPage, null, this.contents);
   }
 }
 

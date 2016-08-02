@@ -85,6 +85,13 @@
           "type": "playlist-id"
         }
       ]
+    ],
+    "common": [
+      [{
+        "name": "CUSTOM_TRACKER_ID",
+        "text": "Tracking ID",
+        "type": "tracking-id"
+      }]
     ]
   }
 }

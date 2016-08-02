@@ -11,6 +11,7 @@ import TextField from 'material-ui/TextField';
 import DropButton from '../../components/DropButton';
 import Panel from '../../components/Panel';
 import StandardPage from '../../components/StandardPage';
+import ExecutionEnvironment from 'fbjs/lib/ExecutionEnvironment';
 
 import update from '../../helpers/update';
 
@@ -37,6 +38,7 @@ export default class Builder extends Component {
     ButtonsWrapper: 'buttons-wrapper',
     ContentWrapper: 'contents',
     PlaylistWrapper: 'playlist-field',
+    TrackingIdWrapper: 'tracking-field',
     PreviewLandIframe: 'preview-wrapper land',
     PreviewPortIframe: 'preview-wrapper port',
     Iframe: 'iframe',
@@ -52,6 +54,7 @@ export default class Builder extends Component {
     PlaylistCheckbox: 'playlist-checkbox',
     PanelPort: 'panel-port',
     PanelLand: 'panel-land',
+    PanelCommonSettings: 'panel-common',
   });
 
   static Styles = {
@@ -106,6 +109,17 @@ export default class Builder extends Component {
       }, 'Landscape'),
     ]),
 
+    TitleCommonSettings: createElement('div', null, [
+      createElement('span', {
+        key: 'zh',
+        className: 'zh',
+      }, '共用設定'),
+      createElement('span', {
+        key: 'en',
+        className: 'en',
+      }, 'Common Settings'),
+    ]),
+
     TitlePreview: createElement('h2', {
       className: 'title-previews',
       key: 'title-previews',
@@ -114,20 +128,32 @@ export default class Builder extends Component {
 
   constructor(props) {
     super(props);
+
     this.handleFileChange = this.handleFileChange.bind(this);
-    this.onPlaylistIdChange = this.onPlaylistIdChange.bind(this);
-    this.togglePlaylist = this.togglePlaylist.bind(this);
-    this.refreshAll = this.refreshAll.bind(this);
     this.handlePlaylistKeyDown = this.handlePlaylistKeyDown.bind(this);
+    this.handleTrackingIdKeyDown = this.handleTrackingIdKeyDown.bind(this);
+    this.onPlaylistIdChange = this.onPlaylistIdChange.bind(this);
+    this.onTrackingIdChange = this.onTrackingIdChange.bind(this);
+    this.refreshAll = this.refreshAll.bind(this);
+    this.togglePlaylist = this.togglePlaylist.bind(this);
     this.updatePlaylist = this.updatePlaylist.bind(this);
+    this.updateTrackingId = this.updateTrackingId.bind(this);
 
     const { config } = props;
     const updateApi = update(config.api);
 
-    this.update = (type, name, value, file) => updateApi({
+    this.updateVariable = (key, value) => updateApi({
       data: {
-        type,
-        [name]: value,
+        type: 'var',
+        key,
+        value,
+      },
+    });
+
+    this.updateFile = (filename, file) => updateApi({
+      data: {
+        type: 'file',
+        filename,
       },
       file,
     });
@@ -135,8 +161,10 @@ export default class Builder extends Component {
     this.state = {
       hasPlaylist: false,
       playlistId: '',
+      trackingId: '',
     };
     this.originPlaylistId = this.state.playlistId;
+    this.originTrackingId = this.state.trackingId;
 
     this.texts = Object.assign({}, Builder.Texts, {
 
@@ -186,7 +214,9 @@ export default class Builder extends Component {
       className: 'export-button',
       containerElement: 'a',
       download: true,
-      href: config.pathExport,
+      href: ExecutionEnvironment.canUseDOM ?
+        `${config.pathExport}&origin=${encodeURIComponent(location.href)}` :
+        config.pathExport,
       label: '輸出設定檔',
       labelStyle: {
         fontSize: 22,
@@ -216,17 +246,24 @@ export default class Builder extends Component {
     });
   }
 
+  onTrackingIdChange(ev) {
+    return this.setState({
+      trackingId: ev.target.value,
+    });
+  }
+
   togglePlaylist() {
     const hasPlaylist = !this.state.hasPlaylist;
     const rootClassName = hasPlaylist ? 'layout-2-buttons' : 'layout-1-button';
     this.setState({ hasPlaylist });
-    return this.update('var', 'ROOT_CLASSNAME', rootClassName)
-        .then(this.refreshAll);
+    return this.updateVariable('ROOT_CLASSNAME', rootClassName)
+               .then(this.refreshAll)
+               .catch(this.refreshAll);
   }
 
   // 圖檔改變
   handleFileChange(file, name) {
-    return this.update('file', 'filename', name, file)
+    return this.updateFile(name, file)
                .then(this.refreshAll)
                .catch(this.refreshAll);
   }
@@ -248,10 +285,17 @@ export default class Builder extends Component {
     return false;
   }
 
+  handleTrackingIdKeyDown(ev) {
+    if (ev.which === 13 || ev.keyCode === 13) {
+      return this.updateTrackingId(ev);
+    }
+    return false;
+  }
+
   updatePlaylist() {
     const { playlistId } = this.state;
     if (this.originPlaylistId !== playlistId) {
-      this.update('var', 'PLAYLIST_ID', playlistId)
+      this.updateVariable('PLAYLIST_ID', playlistId)
           .then(() => {
             this.originPlaylistId = playlistId;
             this.refreshAll();
@@ -260,6 +304,21 @@ export default class Builder extends Component {
       return true;
     }
     return false;
+  }
+
+  updateTrackingId() {
+    const { trackingId } = this.state;
+    if (this.originTrackingId !== trackingId) {
+      this.updateVariable('CUSTOM_TRACKING_ID', trackingId)
+          .then(() => {
+            this.originTrackingId = trackingId;
+            // this.refreshAll();
+          });
+          // .catch(this.refreshAll);
+      return true;
+    }
+    return false;
+    // return this.updateVariable('CUSTOM_TRACKER_ID', value); // 這個不用refresh
   }
 
   parsePlaylistId(props) {
@@ -282,6 +341,30 @@ export default class Builder extends Component {
     return createElement('div', {
       key: name,
       className: Builder.ClassNames.PlaylistWrapper,
+    }, [label, input]);
+  }
+
+  parseTrackingId(props) {
+    const { name, text } = props;
+    const label = createElement('span', {
+      key: 'text',
+      className: 'text',
+    }, text);
+    const input = createElement(TextField, {
+      name,
+      key: 'input',
+      className: 'input',
+      value: this.state.trackingId,
+      onChange: this.onTrackingIdChange,
+      onKeyDown: this.handleTrackingIdKeyDown,
+      onBlur: this.updateTrackingId,
+      style: Builder.Styles.TrackingIdWrapper,
+      hintText: 'UA-XXXXXXXXX-Y',
+      inputStyle: Builder.Styles.TrackingIdInput,
+    });
+    return createElement('div', {
+      key: name,
+      className: Builder.ClassNames.TrackingIdWrapper,
     }, [label, input]);
   }
 
@@ -317,6 +400,8 @@ export default class Builder extends Component {
         return this.parsePlaylistButton(props);
       case 'playlist-id':
         return this.parsePlaylistId(props);
+      case 'tracking-id':
+        return this.parseTrackingId(props);
       default:
         return createElement(DropButton, {
           key: name,
@@ -371,6 +456,23 @@ export default class Builder extends Component {
     ]);
   }
 
+  // 共用設定
+  get commonSettings() {
+    const rowsConfig = this.props.config.layout.common;
+    const buttonsWrapper = createElement('div', {
+      key: Builder.Keys.ButtonsWrapper,
+      className: Builder.ClassNames.ButtonsWrapper,
+    }, rowsConfig.map((config, idx) => this.parseButtonRow(config, idx)));
+
+    return createElement(Panel, {
+      title: this.texts.TitleCommonSettings,
+      key: Builder.Keys.PanelCommonSettings,
+    }, [
+      // this.texts.HintLandscape,
+      buttonsWrapper,
+    ]);
+  }
+
   get previews() {
     const { config } = this.props;
     const iframes = ['PreviewLandIframe', 'PreviewPortIframe'].map(name => {
@@ -411,6 +513,7 @@ export default class Builder extends Component {
     }, [
       this.portraitSettings,
       this.landscapeSettings,
+      this.commonSettings,
       // 預覽圖檔
       this.texts.TitlePreview,
       this.previews,
