@@ -1,6 +1,7 @@
 import './style.scss';
 
 import pathPortUi from './ui-iphone5.svg';
+import pathLandUi from './ui-ipad.svg';
 
 import React, { createElement, Component, PropTypes } from 'react';
 import injectTapEventPlugin from 'react-tap-event-plugin';
@@ -75,7 +76,7 @@ export default class Builder extends Component {
 
   static Images = {
     PreviewLandIframe: createElement('img', {
-      src: pathPortUi,
+      src: pathLandUi,
       key: 'simulate-ui',
       className: 'simulate-ui',
     }),
