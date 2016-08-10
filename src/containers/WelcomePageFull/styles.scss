@@ -71,7 +71,7 @@ html, body {
         position: relative;
         display: block;
         overflow: hidden;
-        padding: 0 16px (2px+$premium-text-size) 16px;
+        padding: 0 16px (4px+$premium-text-size) 16px;
         @media screen and (orientation: portrait) {
           height: auto;
           padding: 32px 16px;
@@ -101,8 +101,9 @@ html, body {
 
         .buttons {
           float: right;
+          text-align: left;
           overflow: hidden;
-          height: $button-default-size;
+          height: 100%;
           width: 28%;
           @media screen and (orientation: portrait) {
             width: 100%;
@@ -111,7 +112,8 @@ html, body {
           }
 
           .button {
-            display: block;
+            display: inline-block;
+            vertical-align: middle;
             overflow: hidden;
             height: $button-default-size;
             border: none;
@@ -122,6 +124,7 @@ html, body {
             &.button-playlist { display: none; }
 
             @media screen and (orientation: portrait) {
+              display: block;
               text-align: center;
             }
 
@@ -131,6 +134,17 @@ html, body {
               max-width: 100%;
               &.in-land-layout { @extend %inline-blcok-on-landscape; }
               &.in-port-layout { @extend %inline-block-on-portrait; }
+            }
+
+          }
+
+          &::before, &::after {
+            display: inline-block;
+            height: 100%;
+            content: ' ';
+            vertical-align: middle;
+            @media screen and (orientation: portrait) {
+              display: none;
             }
           }
         }
@@ -142,7 +156,7 @@ html, body {
         position: absolute;
         left: 16px;
         right: 16px;
-        bottom: 0;
+        bottom: 4px;
         height: $premium-text-size;
         cursor: pointer;
         .premium-text {
@@ -183,19 +197,24 @@ html, body {
       .buttons {
         max-width: 40%;
         width: auto;
-        height: 2 * $button-default-size + 2 * $button-gap-vertical;
         @media screen and (orientation: portrait) {
           max-width: 100%;
           width: 100%;
+          // height: 2 * $button-default-size + 2 * $button-gap-vertical;
           height: 124px;
           margin: 16px 0 0 0;
         }
 
         .button {
-          float: left;
+          // float: left;
           max-width: 48%;
           margin-left: 2%;
-          &.button-playlist { display: block; }
+          &.button-playlist {
+            display: inline-block;
+            @media screen and (orientation: portrait) {
+              display: block;
+            }
+          }
 
           @media screen and (orientation: portrait) {
             max-width: none;

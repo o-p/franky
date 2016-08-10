@@ -50,11 +50,9 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
 
 ga('create', Ast.Config.DEFAULT_TRACKER_ID, 'auto', Ast.Trackers[0]);
-ga('overall.set', 'location', location.pathname);
 
 if (Ast.Config.CUSTOM_TRACKING_ID.indexOf('UA-') === 0) {
   ga('create', Ast.Config.CUSTOM_TRACKING_ID, 'auto', 'custom');
-  ga('custom.set', 'location', location.pathname);
   Ast.Trackers.push('custom');
 }
 
