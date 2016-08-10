@@ -104,7 +104,7 @@ html, body {
         position: relative;
         display: block;
         overflow: hidden;
-        padding: 4px 16px 12px 16px;
+        padding: 4px (4px+$premium-text-size) 12px 16px;
         @media screen and (orientation: portrait) {
           height: auto;
           padding: 0 32px 16px;
@@ -135,6 +135,7 @@ html, body {
 
         .buttons {
           float: right;
+          text-align: left;
           overflow: hidden;
           width: 28%;
           height: 100%;
@@ -146,7 +147,8 @@ html, body {
           .button {
             border: none;
             cursor: pointer;
-            display: block;
+            display: inline-block;
+            vertical-align: middle;
             height: $button-default-size;
             max-height: 100%;
             outline: none;
@@ -158,6 +160,7 @@ html, body {
 
             @media screen and (orientation: portrait) {
               width: 100%;
+              display: block;
               text-align: center;
             }
 
@@ -169,6 +172,16 @@ html, body {
               &.in-port-layout { @extend %inline-block-on-portrait; }
             }
           }
+
+          &::before, &::after {
+            display: inline-block;
+            height: 100%;
+            content: ' ';
+            vertical-align: middle;
+            @media screen and (orientation: portrait) {
+              display: none;
+            }
+          }
         }
       }
 
@@ -178,7 +191,7 @@ html, body {
         position: absolute;
         left: 16px;
         right: 16px;
-        bottom: 0;
+        bottom: 4px;
         height: $premium-text-size;
         cursor: pointer;
         .premium-text {
@@ -233,7 +246,12 @@ html, body {
           max-width: 48%;
           margin-left: 2%;
           width: auto;
-          &.button-playlist { display: block; }
+          &.button-playlist {
+            display: inline-block;
+            @media screen and (orientation: portrait) {
+              display: block;
+            }
+          }
 
           @media screen and (orientation: portrait) {
             max-width: none;
