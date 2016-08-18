@@ -1,6 +1,7 @@
 import './styles.scss';
 
 import ExecutionEnvironment from 'fbjs/lib/ExecutionEnvironment';
+import { listen } from 'fbjs/lib/EventListener';
 import FullPage from '../../components/FullPage';
 import React, { createElement, Component } from 'react';
 
@@ -63,6 +64,7 @@ export default class WelcomePageRect extends Component {
 
   constructor(props) {
     super(props);
+    this.finishSP = this.finishSP.bind(this);
     this.tracking = ExecutionEnvironment.canUseDOM ?
       window.Ast.tracking :
       () => { };
@@ -189,6 +191,14 @@ export default class WelcomePageRect extends Component {
     }));
   }
 
+  componentDidMount() {
+    listen(window, 'message', (ev) => {
+      if (ev.data === 'webclient') {
+        this.isWebClient = true;
+      }
+    });
+  }
+
   onPremiumClick() {
     this.onPageLeave();
 
@@ -199,25 +209,50 @@ export default class WelcomePageRect extends Component {
     });
   }
 
-  onPlayitClick() {
-    this.onPageLeave();
+  onPlayitClick(ev) {
+    if (!this.hasDone) {
+      this.hasDone = true;
+      ev.preventDefault();
 
-    return this.tracking({
-      hitType: 'event',
-      eventCategory: 'Standard',
-      eventAction: 'GoPlay',
-    });
+      this.tracking({
+        hitType: 'event',
+        eventCategory: 'Standard',
+        eventAction: 'GoPlay',
+      });
+
+      return this.finishSP(ev.currentTarget);
+    }
+
+    return 0;
   }
 
-  onPlaylistClick() {
+  onPlaylistClick(ev) {
+    if (!this.hasDone) {
+      this.hasDone = true;
+      ev.preventDefault();
+
+      this.tracking({
+        hitType: 'event',
+        eventCategory: 'Standard',
+        eventAction: 'GoPlaylist',
+        eventLabel: WelcomePageRect.Config.PLAYLIST_ID,
+      });
+
+      return this.finishSP(ev.currentTarget);
+    }
+
+    return 0;
+  }
+
+  finishSP(dom) {
     this.onPageLeave();
 
-    return this.tracking({
-      hitType: 'event',
-      eventCategory: 'Standard',
-      eventAction: 'GoPlaylist',
-      eventLabel: WelcomePageRect.Config.PLAYLIST_ID,
-    });
+    const { href, click } = dom;
+    const handler = this.isWebClient ?
+      () => parent.window.postMessage(href, '*') :
+      click.bind(dom);
+
+    return window.setTimeout(handler, 1000);
   }
 
   get contents() {

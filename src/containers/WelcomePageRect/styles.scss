@@ -57,7 +57,6 @@ html, body {
     background-size: 100% auto;
     @media screen and (orientation: portrait) {
       background-image: none;
-      // background-position: center 60px;
     }
 
     position: relative;
@@ -115,7 +114,6 @@ html, body {
           display: block;
           width: 70%;
           height: 100%;
-          max-height: 2 * $button-default-size;
           overflow: hidden;
           @media screen and (orientation: portrait) {
             width: 100%;
@@ -142,6 +140,7 @@ html, body {
           @media screen and (orientation: portrait) {
             width: 100%;
             margin: 16px 0;
+            height: auto;
           }
 
           .button {
