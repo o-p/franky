@@ -73,8 +73,8 @@ $black: #000;
         .button-text { font-size: 14px; }
         .button-hint { font-size: 12px; color: #555555; margin-left: 0.5em; }
 
-        // 品牌選歌圖檔 | 輸入歌單編號 / 追蹤編號
-        .playlist-field, .tracking-field {
+        // 品牌選歌圖檔 | 輸入歌單編號 / 追蹤編號 | 外連按鈕
+        .playlist-field, .tracking-field, .link-url-field {
           height: 36px;
           float: left;
 
