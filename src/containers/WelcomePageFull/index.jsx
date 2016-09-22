@@ -2,6 +2,7 @@ import './styles.scss';
 
 import ExecutionEnvironment from 'fbjs/lib/ExecutionEnvironment';
 import { listen } from 'fbjs/lib/EventListener';
+
 import FullPage from '../../components/FullPage';
 import React, { createElement, Component } from 'react';
 
@@ -15,8 +16,11 @@ import pathButtonPlayItLand from './button-playit-land.svg';
 import pathButtonPlayItPort from './button-playit-port.svg';
 import pathButtonPlaylistLand from './button-playlist-land.svg';
 import pathButtonPlaylistPort from './button-playlist-port.svg';
+import pathButtonExternalLand from './button-external-land.svg';
+import pathButtonExternalPort from './button-external-port.svg';
 
 import Device from '../../helpers/device';
+import Detection from '../../helpers/detection';
 
 const KKBOXProtocol = {
   NextSlot: 'kkbox://sponsored_premium_v2_goto_next_slot',
@@ -28,6 +32,8 @@ const KKBOXProtocol = {
 
 const DEFAULT_CONFIG = {
   PLAYLIST_ID: '%PLAYLIST_ID%',
+  SECONDARY_BUTTON: '%SECONDARY_BUTTON%',
+  EXTERNAL_LINK: '%EXTERNAL_LINK%',
 };
 
 export default class WelcomePageFull extends Component {
@@ -36,6 +42,7 @@ export default class WelcomePageFull extends Component {
     DEFAULT_CONFIG;
 
   static ClassNames = {
+    ButtonExternalLink: 'button button-external-link',
     ButtonPlayIt: 'button button-playit',
     ButtonPlaylist: 'button button-playlist',
     ButtonImageInLandscape: 'button-image in-land-layout',
@@ -50,9 +57,11 @@ export default class WelcomePageFull extends Component {
     PremiumPort: 'premium-text',
     PremiumLandWrapper: 'premium-land-wrapper',
     PremiumPortWrapper: 'premium-port-wrapper',
+    UnsupportExternalLink: 'unsupport-external-link',
   };
 
   static Keys = Object.assign({}, WelcomePageFull.ClassNames, {
+    ButtonExternalLink: 'button-ext-link',
     ButtonPlayIt: 'button-playit',
     ButtonPlaylist: 'button-playlist',
     ButtonImageInLandscape: 'land',
@@ -71,6 +80,7 @@ export default class WelcomePageFull extends Component {
     this.onPlayitClick = this.onPlayitClick.bind(this);
     this.onPlaylistClick = this.onPlaylistClick.bind(this);
     this.onPremiumClick = this.onPremiumClick.bind(this);
+    this.onExternalLinkClick = this.onExternalLinkClick.bind(this);
   }
 
   componentWillMount() {
@@ -146,10 +156,33 @@ export default class WelcomePageFull extends Component {
       }),
     ]);
 
+
+    const buttonExternalLink = createElement('a', {
+      target: '_blank',
+      href: WelcomePageFull.Config.EXTERNAL_LINK,
+      key: WelcomePageFull.Keys.ButtonExternalLink,
+      className: WelcomePageFull.ClassNames.ButtonExternalLink,
+      onClick: this.onExternalLinkClick,
+    }, [
+      createElement('img', {
+        key: WelcomePageFull.Keys.ButtonImageInLandscape,
+        className: WelcomePageFull.ClassNames.ButtonImageInLandscape,
+        src: pathButtonExternalLand,
+        alt: '了解更多',
+      }),
+      createElement('img', {
+        key: WelcomePageFull.Keys.ButtonImageInPortrait,
+        className: WelcomePageFull.ClassNames.ButtonImageInPortrait,
+        src: pathButtonExternalPort,
+        alt: '了解更多',
+      }),
+    ]);
+
+
     this.buttons = createElement('div', {
       key: WelcomePageFull.Keys.Buttons,
       className: WelcomePageFull.ClassNames.Buttons,
-    }, [buttonPlaylist, buttonPlayIt]);
+    }, [buttonPlaylist, buttonExternalLink, buttonPlayIt]);
 
     this.premiumTextLand = createElement('a', {
       key: WelcomePageFull.Keys.PremiumLandWrapper,
@@ -186,6 +219,14 @@ export default class WelcomePageFull extends Component {
     });
   }
 
+  onExternalLinkClick() {
+    return this.tracking({
+      hitType: 'event',
+      eventCategory: 'Standard',
+      eventAction: 'ExternalLink',
+    });
+  }
+
   onPremiumClick() {
     this.onPageLeave();
 
@@ -208,13 +249,6 @@ export default class WelcomePageFull extends Component {
       });
 
       return this.finishSP(ev.currentTarget);
-      // const { target } = ev;
-      // const { href } = target;
-      // const handler = this.isWebClient ?
-      //   () => parent.window.postMessage(href, '*') :
-      //   target.click.bind(target);
-
-      // return window.setTimeout(handler, 1000);
     }
 
     return 0;
@@ -233,12 +267,6 @@ export default class WelcomePageFull extends Component {
       });
 
       return this.finishSP(ev.currentTarget);
-      // const { target } = ev;
-      // const handler = this.isWebClient ?
-      //   () => parent.window.postMessage(target.href, '*') :
-      //   target.click.bind(target);
-
-      // return window.setTimeout(handler, 500);
     }
 
     return 0;
@@ -272,7 +300,17 @@ export default class WelcomePageFull extends Component {
   }
 
   render() {
-    return createElement(FullPage, null, this.contents);
+    const { UNSUPPORT_EXTERNAL_LINK } = Detection;
+
+    const classNames = [
+      `show-button-${WelcomePageFull.Config.SECONDARY_BUTTON}`,
+    ];
+
+    if (UNSUPPORT_EXTERNAL_LINK) classNames.push(WelcomePageFull.ClassNames.UnsupportExternalLink);
+
+    return createElement(FullPage, {
+      className: classNames.join(' '),
+    }, this.contents);
   }
 }
 
