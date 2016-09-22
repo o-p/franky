@@ -147,6 +147,7 @@ export default class Builder extends Component {
 
     this.handleFileChange = this.handleFileChange.bind(this);
     this.onPlaylistIdChange = this.onPlaylistIdChange.bind(this);
+    this.onLinkUrlChange = this.onLinkUrlChange.bind(this);
     this.onTrackingIdChange = this.onTrackingIdChange.bind(this);
     this.refreshAll = this.refreshAll.bind(this);
     this.togglePlaylist = this.togglePlaylist.bind(this);
