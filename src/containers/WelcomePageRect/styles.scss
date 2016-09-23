@@ -33,15 +33,6 @@ html, body {
 }
 
 .full-page {
-  // background-image: url('./background-land.jpg');
-  // background-position: center center;
-  // background-repeat: no-repeat;
-  // background-size: cover;
-
-  // @media screen and (orientation: portrait) {
-  //   background-image: url('./background-port.jpg');
-  //   background-position: center 60px;
-  // }
   background-image: url('./overlay-land.svg');
   background-repeat: repeat-x;
   background-size: auto 100%;
@@ -155,7 +146,8 @@ html, body {
             text-align: right;
             width: 100%;
 
-            &.button-playlist { display: none; }
+            &.button-playlist,
+            &.button-external-link { display: none; }
 
             @media screen and (orientation: portrait) {
               width: 100%;
@@ -219,8 +211,6 @@ html, body {
 }
 
 .root { // #root
-  // &.layout-1-button => 1 button as default
-
   &.layout-2-buttons {
     .contents .content {
       .texts {
@@ -245,12 +235,6 @@ html, body {
           max-width: 48%;
           margin-left: 2%;
           width: auto;
-          &.button-playlist {
-            display: inline-block;
-            @media screen and (orientation: portrait) {
-              display: block;
-            }
-          }
 
           @media screen and (orientation: portrait) {
             max-width: none;
@@ -261,5 +245,20 @@ html, body {
         }
       }
     }
+
+    .full-page {
+      .show-button-playlist .contents .content .button-playlist,
+      .show-button-external-link .contents .content .button-external-link {
+        display: inline-block;
+          @media screen and (orientation: portrait) {
+            display: block;
+          }
+      }
+
+      .show-button-external-link.unsupport-external-link .contents .content .button-external-link {
+        display: none;
+      }
+    }
+
   }
 }

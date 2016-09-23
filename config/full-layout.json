@@ -28,13 +28,13 @@
           "name": "overlay-port.svg",
           "text": "漸層圖",
           "fileType": "svg"
-        }
-      ], [
-        {
+        }, {
           "name": "button-playit-port.svg",
           "text": "自行選歌圖檔",
           "fileType": "svg"
-        }, {
+        }
+      ], [
+        {
           "name": "button-playlist-port.svg",
           "text": "品牌選歌圖檔",
           "fileType": "svg",
@@ -43,6 +43,17 @@
           "name": "playlist-id",
           "text": "輸入歌單編號",
           "type": "playlist-id"
+        }
+      ], [
+        {
+          "name": "button-external-port.svg",
+          "text": "外連按鈕圖檔",
+          "fileType": "svg",
+          "type": "external-link-button"
+        }, {
+          "name": "external-link",
+          "text": "外連網址",
+          "type": "external-link"
         }
       ]
     ],
@@ -68,13 +79,13 @@
           "name": "overlay-land.svg",
           "text": "漸層圖",
           "fileType": "svg"
-        }
-      ], [
-        {
+        }, {
           "name": "button-playit-land.svg",
           "text": "自行選歌圖檔",
           "fileType": "svg"
-        }, {
+        }
+      ], [
+        {
           "name": "button-playlist-land.svg",
           "text": "品牌選歌圖檔",
           "fileType": "svg",
@@ -83,6 +94,17 @@
           "name": "playlist-id",
           "text": "輸入歌單編號",
           "type": "playlist-id"
+        }
+      ], [
+        {
+          "name": "button-external-land.svg",
+          "text": "外連按鈕圖檔",
+          "fileType": "svg",
+          "type": "external-link-button"
+        }, {
+          "name": "external-link",
+          "text": "外連網址",
+          "type": "external-link"
         }
       ]
     ],
