@@ -39,6 +39,7 @@ export default class Builder extends Component {
     ButtonsWrapper: 'buttons-wrapper',
     ContentWrapper: 'contents',
     PlaylistWrapper: 'playlist-field',
+    LinkUrlWrapper: 'link-url-field',
     TrackingIdWrapper: 'tracking-field',
     PreviewLandIframe: 'preview-wrapper land',
     PreviewPortIframe: 'preview-wrapper port',
@@ -53,6 +54,7 @@ export default class Builder extends Component {
   static Keys = Object.assign({}, Builder.ClassNames, Builder.Refs, {
     // to custom keys if necessary
     PlaylistCheckbox: 'playlist-checkbox',
+    LinkUrlCheckbox: 'link-url-checkbox',
     PanelPort: 'panel-port',
     PanelLand: 'panel-land',
     PanelCommonSettings: 'panel-common',
@@ -68,6 +70,19 @@ export default class Builder extends Component {
       padding: '0 0.5em',
     },
     PlaylistCheckbox: {
+      width: 28,
+      float: 'left',
+      top: 6,
+    },
+    LinkUrlWrapper: {
+      height: 36,
+      top: 4,
+    },
+    LinkUrlInput: {
+      top: -4,
+      padding: '0 0.5em',
+    },
+    LinkUrlCheckbox: {
       width: 28,
       float: 'left',
       top: 6,
@@ -131,14 +146,45 @@ export default class Builder extends Component {
     super(props);
 
     this.handleFileChange = this.handleFileChange.bind(this);
-    this.handlePlaylistKeyDown = this.handlePlaylistKeyDown.bind(this);
-    this.handleTrackingIdKeyDown = this.handleTrackingIdKeyDown.bind(this);
     this.onPlaylistIdChange = this.onPlaylistIdChange.bind(this);
+    this.onLinkUrlChange = this.onLinkUrlChange.bind(this);
     this.onTrackingIdChange = this.onTrackingIdChange.bind(this);
     this.refreshAll = this.refreshAll.bind(this);
     this.togglePlaylist = this.togglePlaylist.bind(this);
-    this.updatePlaylist = this.updatePlaylist.bind(this);
-    this.updateTrackingId = this.updateTrackingId.bind(this);
+    this.toggleExternalLink = this.toggleExternalLink.bind(this);
+
+    // helper for listen to enter key down only
+    const watchEnterKeyDown = handler => ev => {
+      if (ev.which === 13 || ev.keyCode === 13) return handler(ev);
+      return false;
+    };
+
+    this.handlePlaylistKeyDown = watchEnterKeyDown(this.updatePlaylist);
+    this.handleTrackingIdKeyDown = watchEnterKeyDown(this.updateTrackingId);
+    this.handleLinkUrlKeyDown = watchEnterKeyDown(this.updateLinkUrl);
+
+    const updateValHelper = (stateName, originName, nameInTemplate, requireRefresh) => () => {
+      const val = this.state[stateName];
+      if (this[originName] !== val) {
+        this.updateVariable(nameInTemplate, val)
+            .then(() => {
+              this[originName] = val;
+              if (requireRefresh) this.refreshAll();
+            })
+            .catch(() => {
+              if (requireRefresh) this.refreshAll();
+            });
+        return true;
+      }
+      return false;
+    };
+
+    this.updatePlaylist =
+      updateValHelper('playlistId', 'originPlaylistId', 'PLAYLIST_ID', true);
+    this.updateTrackingId =
+      updateValHelper('trackingId', 'originTrackingId', 'CUSTOM_TRACKING_ID', false);
+    this.updateLinkUrl =
+      updateValHelper('linkUrl', 'originLinkUrl', 'EXTERNAL_LINK', true);
 
     const { config } = props;
     const updateApi = update(config.api);
@@ -161,11 +207,14 @@ export default class Builder extends Component {
 
     this.state = {
       hasPlaylist: false,
+      hasExternalLink: false,
       playlistId: '',
+      linkUrl: '',
       trackingId: '',
     };
     this.originPlaylistId = this.state.playlistId;
     this.originTrackingId = this.state.trackingId;
+    this.originLinkUrl = this.state.linkUrl;
 
     this.texts = Object.assign({}, Builder.Texts, {
 
@@ -176,7 +225,7 @@ export default class Builder extends Component {
         createElement('span', {
           key: 'hint-text',
           className: 'hint',
-        }, '請選擇圖檔一一上傳(僅限png檔)'),
+        }, '請選擇圖檔一一上傳(jpg|svg)'),
         createElement('a', {
           key: 'download-link',
           className: 'download-link',
@@ -192,7 +241,7 @@ export default class Builder extends Component {
         createElement('span', {
           key: 'hint-text',
           className: 'hint',
-        }, '請選擇圖檔一一上傳(僅限png檔)'),
+        }, '請選擇圖檔一一上傳(jpg|svg)'),
         createElement('a', {
           key: 'download-link',
           className: 'download-link',
@@ -247,6 +296,20 @@ export default class Builder extends Component {
     });
   }
 
+  // 外連連結內容改變
+  onLinkUrlChange(ev) {
+    const { value } = ev.target;
+    const { hasExternalLink } = this.state;
+
+    if (value && !hasExternalLink) {
+      // 自動勾選
+      this.toggleExternalLink();
+    }
+    return this.setState({
+      linkUrl: value,
+    });
+  }
+
   onTrackingIdChange(ev) {
     return this.setState({
       trackingId: ev.target.value,
@@ -255,11 +318,46 @@ export default class Builder extends Component {
 
   togglePlaylist() {
     const hasPlaylist = !this.state.hasPlaylist;
-    const rootClassName = hasPlaylist ? 'layout-2-buttons' : 'layout-1-button';
-    this.setState({ hasPlaylist });
-    return this.updateVariable('ROOT_CLASSNAME', rootClassName)
-               .then(this.refreshAll)
-               .catch(this.refreshAll);
+    const hasExternalLink = false;
+
+    const rootClassName = hasPlaylist || hasExternalLink ? 'layout-2-buttons' : 'layout-1-button';
+    this.setState({ hasPlaylist, hasExternalLink });
+
+    const updates = [
+      this.updateVariable('ROOT_CLASSNAME', rootClassName),
+    ];
+
+    if (hasPlaylist) {
+      updates.push(
+        this.updateVariable('SECONDARY_BUTTON', 'playlist')
+      );
+    }
+
+    return Promise.all(updates)
+                  .then(this.refreshAll)
+                  .catch(this.refreshAll);
+  }
+
+  toggleExternalLink() {
+    const hasExternalLink = !this.state.hasExternalLink;
+    const hasPlaylist = false;
+
+    const rootClassName = hasPlaylist || hasExternalLink ? 'layout-2-buttons' : 'layout-1-button';
+    this.setState({ hasPlaylist, hasExternalLink });
+
+    const updates = [
+      this.updateVariable('ROOT_CLASSNAME', rootClassName),
+    ];
+
+    if (hasExternalLink) {
+      updates.push(
+        this.updateVariable('SECONDARY_BUTTON', 'external-link')
+      );
+    }
+
+    return Promise.all(updates)
+                  .then(this.refreshAll)
+                  .catch(this.refreshAll);
   }
 
   // 圖檔改變
@@ -277,49 +375,6 @@ export default class Builder extends Component {
           const iframe = this.refs[name];
           iframe.src = iframe.src;
         });
-  }
-
-  handlePlaylistKeyDown(ev) {
-    if (ev.which === 13 || ev.keyCode === 13) {
-      return this.updatePlaylist();
-    }
-    return false;
-  }
-
-  handleTrackingIdKeyDown(ev) {
-    if (ev.which === 13 || ev.keyCode === 13) {
-      return this.updateTrackingId(ev);
-    }
-    return false;
-  }
-
-  updatePlaylist() {
-    const { playlistId } = this.state;
-    if (this.originPlaylistId !== playlistId) {
-      this.updateVariable('PLAYLIST_ID', playlistId)
-          .then(() => {
-            this.originPlaylistId = playlistId;
-            this.refreshAll();
-          })
-          .catch(this.refreshAll);
-      return true;
-    }
-    return false;
-  }
-
-  updateTrackingId() {
-    const { trackingId } = this.state;
-    if (this.originTrackingId !== trackingId) {
-      this.updateVariable('CUSTOM_TRACKING_ID', trackingId)
-          .then(() => {
-            this.originTrackingId = trackingId;
-            // this.refreshAll();
-          });
-          // .catch(this.refreshAll);
-      return true;
-    }
-    return false;
-    // return this.updateVariable('CUSTOM_TRACKER_ID', value); // 這個不用refresh
   }
 
   parsePlaylistId(props) {
@@ -342,6 +397,29 @@ export default class Builder extends Component {
     return createElement('div', {
       key: name,
       className: Builder.ClassNames.PlaylistWrapper,
+    }, [label, input]);
+  }
+
+  parseLinkUrl(props) {
+    const { name, text } = props;
+    const label = createElement('span', {
+      key: 'text',
+      className: 'text',
+    }, text);
+    const input = createElement(TextField, {
+      name,
+      key: 'input',
+      className: 'input',
+      value: this.state.linkUrl,
+      onChange: this.onLinkUrlChange,
+      onKeyDown: this.handleLinkUrlKeyDown,
+      onBlur: this.updateLinkUrl,
+      style: Builder.Styles.LinkUrlWrapper,
+      inputStyle: Builder.Styles.LinkUrlInput,
+    });
+    return createElement('div', {
+      key: name,
+      className: Builder.ClassNames.LinkUrlWrapper,
     }, [label, input]);
   }
 
@@ -394,13 +472,42 @@ export default class Builder extends Component {
     ]);
   }
 
+  parseLinkButton(props) {
+    const { name, text, fileType } = props;
+    const { hasExternalLink } = this.state;
+    const checkbox = createElement(Checkbox, {
+      key: Builder.Keys.LinkUrlCheckbox,
+      checked: hasExternalLink,
+      onCheck: this.toggleExternalLink,
+      style: Builder.Styles.LinkUrlCheckbox,
+    });
+    const button = createElement(DropButton, {
+      key: name,
+      name,
+      fileType,
+      onFileSelected: this.handleFileChange,
+    }, text);
+
+    return createElement('div', {
+      key: name,
+      className: Builder.ClassNames.LinkUrlWrapper,
+    }, [
+      checkbox,
+      button,
+    ]);
+  }
+
   parseField(props) {
     const { hint, name, text, type, fileType } = props;
     switch (type) {
       case 'playlist-button':
         return this.parsePlaylistButton(props);
+      case 'external-link-button':
+        return this.parseLinkButton(props);
       case 'playlist-id':
         return this.parsePlaylistId(props);
+      case 'external-link':
+        return this.parseLinkUrl(props);
       case 'tracking-id':
         return this.parseTrackingId(props);
       default:

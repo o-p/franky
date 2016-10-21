@@ -121,7 +121,6 @@ html, body {
             outline: none;
             text-align: right;
             width: 100%;
-            &.button-playlist { display: none; }
 
             @media screen and (orientation: portrait) {
               display: block;
@@ -136,6 +135,8 @@ html, body {
               &.in-port-layout { @extend %inline-block-on-portrait; }
             }
 
+            &.button-playlist,
+            &.button-external-link { display: none; }
           }
 
           &::before, &::after {
@@ -179,14 +180,12 @@ html, body {
         }
       }
     }
-
-
   }
 }
 
 .root { // #root
   &.layout-2-buttons {
-    .contents .content {
+    .full-page .contents .content {
       .texts {
         width: 60%;
         @media screen and (orientation: portrait) {
@@ -206,15 +205,8 @@ html, body {
         }
 
         .button {
-          // float: left;
           max-width: 48%;
           margin-left: 2%;
-          &.button-playlist {
-            display: inline-block;
-            @media screen and (orientation: portrait) {
-              display: block;
-            }
-          }
 
           @media screen and (orientation: portrait) {
             max-width: none;
@@ -223,6 +215,20 @@ html, body {
             width: 100%;
           }
         }
+      }
+    }
+
+    .full-page {
+      .show-button-playlist .contents .content .button-playlist,
+      .show-button-external-link .contents .content .button-external-link {
+        display: inline-block;
+          @media screen and (orientation: portrait) {
+            display: block;
+          }
+      }
+
+      .show-button-external-link.unsupport-external-link .contents .content .button-external-link {
+        display: none;
       }
     }
   }
