@@ -1,0 +1,96 @@
+@import '~lib/bourbon/bourbon';
+// 盡量撐滿左右的橫版規格:
+$standard-size-width: 820px;
+$standard-size-height: 460px;
+
+* {
+  /**
+   * @see https://www.google.com/get/noto/help/guidelines/ - Guidelines for Using Noto
+   */
+  font-family: "Noto Sans", "Noto Sans CJK TC", "微軟正黑體", "PingFang TC", "黑體-繁", "Microsoft JhengHei", "Heiti TC", sans-serif;
+  box-sizing: border-box;
+}
+
+html, body {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.root {
+  height: 100%;
+  width: 100%;
+}
+
+// 0.625x
+$small-size-width: 0.625 * $standard-size-width;
+$small-size-height: 0.625 * $standard-size-height;
+
+$tiny-size-width: 0.4 * $standard-size-width;
+$tiny-size-height: 0.4 * $standard-size-height;
+
+.full-page {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden;
+
+  // for vertical align middle
+  &::before, &::after {
+    display: inline-block;
+    content: ' ';
+    height: 100%;
+    vertical-align: middle;
+    @media screen and (orientation: portrait) {
+      display: none;
+    }
+  }
+
+  // vertical middle, 100% width wrapper
+  .full-page-outer-container {
+    width: 100%;
+    height: $standard-size-height;
+    vertical-align: middle;
+    display: inline-block;
+    @media screen and (orientation: portrait) {
+      height: auto;
+      vertical-align: top;
+    }
+  }
+
+  // horizontal center wrapper
+  .fullpage-inner-container {
+    width: $standard-size-width;
+    height: 100%;
+    display: block;
+    position: relative;
+    margin: 0 auto;
+  }
+
+  @media screen and (orientation: landscape) {
+    // small size
+    @media (max-width: $standard-size-width - 1) and (min-width: $small-size-width),
+           (max-width: $standard-size-height - 1) and (min-width: $small-size-height) {
+      .full-page-outer-container { height: $small-size-height; }
+      .fullpage-inner-container { width: $small-size-width; }
+    }
+    // tiny size (usually for portrait on keyboard shown)
+    @media (max-width: $small-size-width - 1),
+           (max-height: $small-size-height - 1) {
+      .full-page-outer-container { height: $tiny-size-height; }
+      .fullpage-inner-container { width: $tiny-size-width; }
+    }
+  }
+
+  @media screen and (orientation: portrait) {
+    overflow: auto;
+    .full-page-outer-container { min-height: 100% }
+    .fullpage-inner-container { width: 100% }
+  }
+}

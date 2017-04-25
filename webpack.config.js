@@ -12,21 +12,21 @@ var loaders = argv.base64 ?
     {
       test: /\.jsx?$/,
       loader: 'babel',
-      include: [path.resolve(__dirname, 'src')]
+      include: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'config')],
     },
     {
       test: /\.scss$/,
       loader: ExtractTextPlugin.extract('style-loader', '!css!sass'),
     },
     { test: /\.json$/, loader: 'json-loader' },
-    { test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/, loader: 'url-loader?limit=10000&name=assets/[name].[ext]' }, //
+    { test: /\.(png|jpg|jpeg|gif|svg|woff|woff2)$/, loader: 'url-loader?limit=10000&name=assets/[name].[ext]' },
     { test: /\.(eot|ttf|wav|mp3|mp4)$/, loader: 'file-loader?name=assets/[name].[ext]'},
   ] :
   [ // without url-loader
     {
       test: /\.jsx?$/,
       loader: 'babel',
-      include: [path.resolve(__dirname, 'src')]
+      include: [path.resolve(__dirname, 'src'), path.resolve(__dirname, 'config')],
     },
     {
       test: /\.scss$/,

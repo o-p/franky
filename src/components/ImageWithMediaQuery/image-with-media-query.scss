@@ -1,0 +1,7 @@
+.iwmq--land-only { 
+  @media (orientation: portrait) { display: none !important; }
+}
+
+.iwmq--port-only {
+  @media (orientation: landscape) { display: none !important; }
+}

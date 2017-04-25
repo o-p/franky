@@ -1,0 +1,19 @@
+.go-premium {
+  z-index: 9998; // 9999 is for modal
+  position: fixed;
+  bottom: 0.3em;
+  left: 0;
+  right: 0;
+  text-align: center;
+
+  @media screen and (orientation: portrait) {
+    position: absolute;
+  }
+
+  .link {
+    text-decoration: none;
+    border-bottom: 1px solid;
+    cursor: pointer;
+    font-size: 0.8em;
+  }
+}

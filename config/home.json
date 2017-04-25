@@ -9,5 +9,10 @@
       "path": "../",
       "key": "action",
       "value": "rect"
+    },
+    "API_CUSTOM_QUIZ": {
+      "path": "../",
+      "key": "action",
+      "value": "quiz"
     }
 }

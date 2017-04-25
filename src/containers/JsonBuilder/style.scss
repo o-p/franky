@@ -1,0 +1,98 @@
+@import 'lib/bourbon/bourbon';
+@import 'lib/material-design';
+
+
+$light-blue: #00BCD4;
+$light-gray: rgba(200, 200, 200, 0.3);
+$black: #000;
+
+%spec-iphone5 {
+  width: 320px;
+  height: 568px;
+}
+%spec-web-client {
+  width: 820px;
+  height: 520px;
+}
+
+.builder-wrapper {
+  width: 100%;
+  padding: 0 16px 36px 16px;
+
+  .zh { color: $light-blue; font-weight: bold; }
+  .en { color: $black; font-size: 0.9em; margin-left: 0.6em; font-weight: bold; }
+
+  // 滿版製作
+  .head-title {
+    width: 100%;
+    height: 52px;
+    font-size: 22px;
+    font-weight: bold;
+    line-height: 52px;
+    margin: 0;
+  }
+
+  .contents {
+    width: 100%;
+  }
+
+  .floating-actions {
+    position: fixed;
+    bottom: 3em;
+    right: 3em;
+    width: 60px;
+    text-align: center;
+
+    .floating-button { margin-top: 10px; z-index: 9998; }
+    .floating-button--add-mid { transform: translate3d(0, 270%, 0); }
+    .floating-button--export { transform: translate3d(0, 135%, 0); }
+    .floating-button--save {
+      z-index: 9999;
+    }
+
+    &:hover {
+      .floating-button { transform: translateZ(0); }
+    }
+  } 
+
+  &::before, &::after {
+    display: table;
+    content: ' ';
+    clear: both;
+  }
+
+  .panel .panel-body {
+    padding-bottom: 16px;
+  }
+
+  // 預覽 iframe
+  .component--preview {
+    display: block;
+    float: left;
+  }
+
+  .preview-wrapper {
+    position: relative;
+    display: block;
+    float: left;
+    border: 3px solid #999;
+    border-radius: 3px;
+    box-sizing: content-box;
+
+    &.land { @extend %spec-web-client; }
+    &.port { @extend %spec-iphone5; }
+    &:nth-child(2n + 1) { margin-right: 40px; }
+
+    .iframe, .simulate-ui {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      border: none;
+      outline: none;
+    }
+    .iframe { z-index: 3; width: 100%; height: 100%; }
+    .simulate-ui { z-index: 4; }
+  }
+
+}
