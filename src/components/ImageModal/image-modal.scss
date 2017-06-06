@@ -1,0 +1,17 @@
+.image-modal {
+  // 寬高有 max 限制, 這邊只負責撐大
+  width: 100%;
+  height: 100%;
+
+  .modal-body-wrapper {
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden;
+    overflow-y: auto;  
+  }
+
+  .modal-image {
+    width: 100%;
+    height: auto;
+  }
+}

@@ -1,14 +1,5 @@
 @import 'lib/bourbon/bourbon';
 
-// @include keyframes(backgroundFadeIn) {
-//   from {
-//     background-color: rgba(255, 255, 255, 0);
-//   }
-//   to {
-//     background-color: rgba(255, 255, 255, 1);
-//   }
-// }
-
 .full-page {
   @include background(radial-gradient(circle farthest-corner at 95% 0%, #fffbef 0%, #c5815a 50%, #503323 100%));
 
@@ -69,10 +60,12 @@
 
       .buttons {
         display: block;
-        width: 554px;
+        width: 60%;
         height: 60px;
         margin: 100px auto 0;
 
+        $btn-width: 27%;
+        $btn-margin: 9.5%; // ((100% - 3 * $btn-width) / 2) * 100%;
         .button {
           border-radius: 30px;
           overflow: hidden;
@@ -84,16 +77,14 @@
           margin: 0;
           outline: none;
           padding: 0;
-          width: 240px;
+          width: 27%;
+          margin-right: $btn-margin;
           opacity: 0;
           transition: opacity 1s cubic-bezier(0.4, 0.0, 0.2, 1) 1s;
           background-color: #FFF;
+          float: left;
 
-          &.full-layout { float: left; }
-          &.rect-layout { float: right; }
-          // &:hover {
-          //   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-          // }
+          &:last-child { margin-right: 0; }
 
           .hover-effect {
             background-color: rgba(0, 172, 204, 0);
