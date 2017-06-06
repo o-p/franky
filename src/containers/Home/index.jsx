@@ -3,59 +3,61 @@ import './styles.scss';
 import ExecutionEnvironment from 'fbjs/lib/ExecutionEnvironment';
 import FullPage from '../../components/FullPage';
 import Logo from '../../components/LogoKKBOX';
-import React, { createElement, Component } from 'react';
+import React, { createElement, Component, createFactory } from 'react';
 
 import Config from 'config/home.json'; // eslint-disable-line import/no-unresolved
 import pathBackground from './home-background.jpg';
 import pathLandingText from './text.svg';
 
+const form = createFactory('form');
+const button = createFactory('button');
+const input = createFactory('input');
+
 export default class Home extends Component {
-  static ClassNames = {
-    ButtonFull: 'button full-layout',
-    ButtonRect: 'button rect-layout',
-    ButtonsWrapper: 'buttons',
-    ContentWrapper: 'contents',
-    FilterImage: 'filter-image',
-    HoverEffectLayer: 'hover-effect',
-    LandingText: 'landing-text',
-    Logo: 'logo',
-  };
-
-  static Keys = Object.assign({}, Home.ClassNames, {
-    // to custom keys if necessary
-  });
-
   static Ids = {
     FullLayout: 'full-layout',
     RectangleLayout: 'rect-layout',
+    CustomQuiz: 'custom-quiz',
   };
 
-  static Forms = {
-    FullLayout: createElement('form', {
+  static Forms = [
+    form({
       key: 'full-layout-form',
       action: Config.API_FULL_LAYOUT.path,
       id: Home.Ids.FullLayout,
       method: 'post',
       name: Home.Ids.FullLayout,
       target: '_self',
-    }, createElement('input', {
+    }, input({
       type: 'hidden',
       name: Config.API_FULL_LAYOUT.key,
       value: Config.API_FULL_LAYOUT.value,
     })),
-    RectangleLayout: createElement('form', {
+    form({
       key: 'rect-layout-form',
       action: Config.API_RECT_LAYOUT.path,
       id: Home.Ids.RectangleLayout,
       method: 'post',
       name: Home.Ids.RectangleLayout,
       target: '_self',
-    }, createElement('input', {
+    }, input({
       type: 'hidden',
       name: Config.API_RECT_LAYOUT.key,
       value: Config.API_RECT_LAYOUT.value,
     })),
-  };
+    form({
+      key: 'custom-quiz-form',
+      action: Config.API_CUSTOM_QUIZ.path,
+      id: Home.Ids.CustomQuiz,
+      method: 'post',
+      name: Home.Ids.CustomQuiz,
+      target: '_self',
+    }, input({
+      type: 'hidden',
+      name: Config.API_CUSTOM_QUIZ.key,
+      value: Config.API_CUSTOM_QUIZ.value,
+    })),
+  ];
 
   static Pathes = {
     BackgroundImage: pathBackground,
@@ -64,9 +66,8 @@ export default class Home extends Component {
 
   static Texts = {
     Landing: createElement('img', {
-      key: Home.Keys.LandingText,
       alt: 'It all starts with a stunnung welcome page. Create your, It\'s easy and free.',
-      className: Home.ClassNames.LandingText,
+      className: 'landing-text',
       src: Home.Pathes.LandingText,
     }),
   };
@@ -95,58 +96,53 @@ export default class Home extends Component {
     }
 
     this.filterImage = createElement('div', {
-      className: Home.ClassNames.FilterImage,
-      key: Home.Keys.FilterImage,
+      className: 'filter-image',
     });
 
     const hoverEffectLayer = createElement.bind(this, 'div', {
-      className: Home.ClassNames.HoverEffectLayer,
+      className: 'hover-effect',
     });
 
     // buttons:
-    const buttonFullLayout = createElement('button', {
-      key: 'full',
-      className: Home.ClassNames.ButtonFull,
-      form: Home.Ids.FullLayout,
+    const btns = [{
+      id: Home.Ids.FullLayout,
+      text: '滿版',
+    }, {
+      id: Home.Ids.RectangleLayout,
+      text: '非滿版',
+    }, {
+      id: Home.Ids.CustomQuiz,
+      text: '客製問卷',
+    }].map(config => button({
+      key: config.id,
+      form: config.id,
+      className: 'button',
       type: 'submit',
-    }, hoverEffectLayer('滿版'));
-
-    const buttonRectLayout = createElement('button', {
-      key: 'rect',
-      className: Home.ClassNames.ButtonRect,
-      form: Home.Ids.RectangleLayout,
-      type: 'submit',
-    }, hoverEffectLayer('非滿版'));
+    }, hoverEffectLayer(config.text)));
 
     this.buttons = createElement('div', {
-      key: Home.Keys.ButtonsWrapper,
-      className: Home.ClassNames.ButtonsWrapper,
-    }, [
-      buttonFullLayout,
-      buttonRectLayout,
-    ]);
+      className: 'buttons',
+    }, btns);
   }
 
   get contents() {
     return createElement('div', {
-      className: Home.ClassNames.ContentWrapper,
-      key: 'contents',
-    }, [
+      className: 'contents',
+    },
       Home.Texts.Landing,
       this.buttons,
-    ]);
+    );
   }
 
   render() {
     return createElement(FullPage, {
       className: this.state.containerClassName,
-    }, [
-      createElement(Logo, { key: 'logo', className: Home.ClassNames.Logo }),
+    },
+      createElement(Logo, { className: 'logo' }),
       this.contents,
       this.filterImage,
-      Home.Forms.FullLayout,
-      Home.Forms.RectangleLayout,
-    ]);
+      ...Home.Forms,
+    );
   }
 }
 

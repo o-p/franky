@@ -1,0 +1,177 @@
+/* 這兩個參數還沒想好到底該歸誰 */
+$standard-size-width: 820px;
+$standard-size-height: 460px;
+
+// 0.625x
+$small-size-width: 0.625 * $standard-size-width;
+$small-size-height: 0.625 * $standard-size-height;
+
+$tiny-size-width: 0.4 * $standard-size-width;
+$tiny-size-height: 0.4 * $standard-size-height;
+
+@mixin fat-portrait() {
+  @media (min-aspect-ratio: 7/10) {
+    @content
+  }
+};
+
+/**
+ * 裝置橫式時靠左出現等高的背景圖
+ * 大部分步驟橫式中間有個框框的都是這類
+ */
+%land-background-image-presets {
+  background-position: left top;
+  background-repeat: no-repeat;
+  background-size: auto 100%;
+}
+
+@mixin land-only-background-img($url: "") {
+  @extend %land-background-image-presets;
+  @if ($url != "") {
+    background-image: url($url);
+  }
+  // 如果把這段放在 extend 中, 會被另外設定的 background-image 吃掉
+  @media (orientation: portrait) {
+    background-image: none;
+  } 
+};
+
+
+@mixin container() {
+  &::before, &::after {
+    display: table;
+    content: ' ';
+    width: 1px;
+    visibility: hidden;
+  }
+};
+
+// STEP 1 - home
+.home {
+  &.full-page {
+    background-image: url('./img/home-land.jpg');
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-position-x: 50%;
+    background-position-y: 0;
+
+    .full-page-outer-container {
+      vertical-align: bottom;
+      height: auto;
+
+    }
+    .fullpage-inner-container {
+      width: 100%;
+      text-align: center;
+    }
+
+    .result-contents {
+      width: 100%;
+      float: none;
+      height: auto;
+    }
+    .result-text-content {
+      max-height: 10em;
+      max-width: 90%;
+      margin: 0 auto 2em;
+    }
+    .result-buttons { @include container(); }
+
+    @media (orientation: landscape) {
+      .result-contents { padding: 0 20% 2em; }
+      .result-buttons.with-2-btns {
+        .result-button {
+          max-width: 46%;
+          float: left;
+
+          &:first-child {
+            margin-right: 8%;
+          }
+        }
+      }
+    }
+
+    @media (orientation: portrait) {
+      background-image: url('./img/home-port.jpg');
+
+      .full-page-outer-container {
+        height: 100%;
+        display: block;
+
+        .result-contents {
+          position: absolute;
+          padding: 1em 5% 3em;
+          @include fat-portrait() { padding: 1em 15% 3em; }
+          height: auto;
+          top: auto;
+          bottom: 0;
+          left: 0;
+          right: 0;
+        
+          .result-text-content {
+            width: 100%;
+            max-width: none;
+          }
+        }
+
+      }
+    }
+  }
+
+}
+
+// STEP - 2 Question
+.group-a .result { background-image: url('./img/ga-land.jpg'); }
+.group-b .result { background-image: url('./img/gb-land.jpg'); }
+.group-a, .group-b {
+  .result {
+    @include land-only-background-img();
+  }
+}
+
+@function padZero($i) {
+  $str: '00#{$i}';
+  @return str-slice($str, -2);
+}
+
+// 結果頁
+.complete .result {
+  // 00 是預設的共用圖
+  @include land-only-background-img('./img/complete-00-land.jpg');
+}
+// 01 ~ 18 是針對特別答案出現的圖案
+@for $i from 1 through 18 {
+  $index: padZero($i);
+  .complete.answer-quiz-#{$i} {
+    .result.show-custom-bg {
+      background-image: url('./img/complete-#{$index}-land.jpg');
+      @media (orientation: portrait) { background-image: none; }
+    }
+  }
+}
+
+// 輸入資料頁
+.feed .user-inputs {
+  @include land-only-background-img('./img/input-land.jpg');
+}
+
+/*
+  ██╗  ██╗███████╗██╗     ██████╗ ███████╗██████╗
+  ██║  ██║██╔════╝██║     ██╔══██╗██╔════╝██╔══██╗
+  ███████║█████╗  ██║     ██████╔╝█████╗  ██████╔╝
+  ██╔══██║██╔══╝  ██║     ██╔═══╝ ██╔══╝  ██╔══██╗
+  ██║  ██║███████╗███████╗██║     ███████╗██║  ██║
+  ╚═╝  ╚═╝╚══════╝╚══════╝╚═╝     ╚══════╝╚═╝  ╚═╝
+  曾經有幫助過又不容易記的media query:
+ */
+%helpers {
+  // 由上至下, 裝置越來越寬:
+  // iPhone5 320x568 = 40 : 71
+  // iPad Mini 解析度是 768 / 1024 => 3/ 4, 但實際上會扣掉很多System UI
+  @media screen and (orientation: portrait) {
+    @media (min-aspect-ratio: 7/10) {
+    }
+    @media (min-aspect-ratio: 21/25) {
+    }
+  }
+}

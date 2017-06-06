@@ -1,0 +1,181 @@
+@import '~lib/bourbon/bourbon';
+
+.user-inputs {
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+
+  // 大圖片
+  .user-inputs-image {
+    z-index: 1;
+
+    &.land {
+      height: 100%;
+      float: left;
+      @media screen and (orientation: portrait) {
+        display: none;
+      }
+    }
+
+    &.port {
+      position: relative;
+      width: 100%;
+      display: none;
+      @media screen and (orientation: portrait) {
+        display: block;
+      }
+    }
+
+  }
+
+  // 內文、隱私權、按鈕的容器
+  .user-inputs-contents {
+    z-index: 2;
+    padding: 1em 1.2em 1.5em 1.2em;
+    width: 50%;
+    float: right;
+
+    @media screen and (orientation: portrait) {
+      float: none;
+      clear: both;
+      position: relative;
+      width: 100%;
+      top: 0;
+      right: 0;
+      margin: 0 auto;
+    }
+    .user-inputs-text { // 內文
+      width: 100%;
+      margin-top: 3em;
+
+      @media screen and (orientation: portrait) {
+        margin: 0;
+      }
+
+      &.land {
+        @media screen and (orientation: portrait) {
+          display: none;
+        }
+      }
+
+      &.port {
+        display: none;
+        @media screen and (orientation: portrait) {
+          display: block;
+        }
+      }
+    }
+    // 用來輸入資料的表格區
+    .user-inputs-fields-wrapper {
+      // display: table;
+      width: 100%;
+      padding: 1em;
+      margin: 0 auto;
+      @media screen and (orientation: portrait) and (min-aspect-ratio: 7/10) {
+        width: 70%;
+      }
+
+      .user-inputs--row {
+        display: table;
+        table-layout: fixed;
+        width: 100%;
+        margin-bottom: 5px;
+
+        &.with-error { box-shadow: 0 0 3px rgba(255, 30, 30, 0.6); }
+
+        @supports(display: flex) {
+          display: flex;
+        }
+      }
+      %fallback--cell {
+        display: table-cell;
+        flex: 1;
+        flex-direction: column;
+        position: relative;
+
+        @supports(display: flex) {
+          display: flex;
+        }
+      }
+      .user-inputs--label {
+        @extend %fallback--cell;
+        width: 20%;
+        text-align: center;
+        background-color: rgba(0, 0, 0, 0.3);
+        color: #FFF;
+        @supports(display: flex) {
+          flex: 1 0 5em;
+        }
+      }
+      .user-inputs--input-wrapper {
+        @extend %fallback--cell;
+        @supports(display: flex) {
+          flex: 3 1 80%;
+        }
+        input { width: 100%; padding: 3px 2em 3px 0.5em; outline: none; }
+      }
+      .user-inputs--radio-group {
+        width: 100%;
+        padding: 0 0.5em;
+        .radio-group-item-text { margin: 0 1.5em 0 0.3em; }
+      }
+      .valid-icon {
+        position: absolute;
+        width: 2em;
+        height: 40%;
+        right: 0;
+        top: 30%;
+
+        &.valid { color: #007B43; }
+        &.invalid { color: #C9171E; }
+      }
+    }
+    // 隱私權條款的checkbox 及 連結文字
+    .user-inputs-privacy {
+      font-size: 1.1em;
+      display: block;
+      width: 100%;
+      text-align: center;
+      padding: 0.5em 1em 0;
+
+      .privacy-desc {
+        display: inline-block;
+        height: 100%;
+        margin-left: 0.4em;
+        vertical-align: middle;
+        cursor: pointer;
+      }
+
+      .privacy-link { margin-left: 0.2em; }
+    }
+
+    // 按鈕容器
+    .user-inputs-buttons-wrapper {
+      width: 100%;
+      padding: 1em 1em 0 1em;
+      text-align: center;
+
+      .user-inputs-button {
+        display: inline-block;
+        min-width: 40%;
+        border-radius: 3px;
+        border: none;
+        outline: none;
+        font-weight: bold;
+        margin: 0.3em;
+        padding: 0 1em;
+        font-size: 1.2em;
+        line-height: 2;
+        cursor: pointer;
+
+        &.disabled, &:disabled {
+          cursor: not-allowed;
+          opacity: 0.3;
+        }
+      }
+    }
+
+    .user-inputs-bottom-anchor { height: 1px; width: 1; visibility: hidden; }
+  }
+
+}
