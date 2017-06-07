@@ -37,9 +37,8 @@ export default class JsonBuilder extends Component {
     this.setMultipleJSON = this.setMultipleJSON.bind(this);
     this.setDefaultJson = this.setDefaultJson.bind(this);
     this.increaseMid = () => this.setState({ mid: this.state.mid + 1 });
-    this.logApiUpdate = lastApiResponse => this.setState({
+    this.logApiUpdate = () => this.setState({
       apiUpdate: Date.now(),
-      lastApiResponse,
     });
 
     this.logApiError = lastApiError => this.setState({
@@ -49,11 +48,11 @@ export default class JsonBuilder extends Component {
 
     this.api = update(props.endpoint);
     this.updateFile = (file, filename) => this.api.upload(file, filename)
-        .then(res => res.json())
+        // 此 API 沒有 response
         .then(this.logApiUpdate)
         .catch(this.onApiError);
     this.updateJSON = () => this.api.updateJSON(this.configHandler.toJSON())
-        .then(res => res.json())
+        // 此 API 沒有 response
         .then(this.logApiUpdate)
         .catch(this.onApiError);
 
@@ -62,7 +61,6 @@ export default class JsonBuilder extends Component {
       apiUpdate: 0,
       init: false,
       lastApiError: null,
-      lastApiResponse: null,
       timeStamp: Date.now(),
       mid: 0, // 假的 mid, 方便 debug 切換答案使用
     };
@@ -72,13 +70,12 @@ export default class JsonBuilder extends Component {
   }
 
   getChildContext() {
-    const { apiError, apiUpdate, lastApiError, lastApiResponse, mid } = this.state;
+    const { apiError, apiUpdate, lastApiError, mid } = this.state;
     return {
       apiError,
       apiUpdate,
       getJSON: this.getJSON,
       lastApiError,
-      lastApiResponse,
       mid,
       setJSON: this.setJSON,
       setMultipleJSON: this.setMultipleJSON,
@@ -186,6 +183,5 @@ JsonBuilder.childContextTypes = {
   apiUpdate: PropTypes.number,
   apiError: PropTypes.number,
   lastApiError: PropTypes.object,
-  lastApiResponse: PropTypes.object,
   mid: PropTypes.number,
 };
