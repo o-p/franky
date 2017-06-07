@@ -146,15 +146,14 @@ export default class UserInputs extends Component {
 
   // [返回] [送出]
   get buttons() {
-    const { styles } = this.context;
     const buttons = this.props.buttons.map(setting => {
       const { text, type } = setting;
 
-      const { isDisabled, onClick } = this.buttonPresets[type];
+      const { isDisabled, onClick, style } = this.buttonPresets[type];
       return button({
         key: type,
         className: 'user-inputs-button',
-        style: styles.button,
+        style,
         onClick,
         disabled: typeof isDisabled === 'function' && isDisabled(),
       }, text);
