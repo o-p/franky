@@ -41,6 +41,13 @@ html, body {
     background-image: url('./overlay-port.svg');
   }
 
+  &.in-webclient {
+    .show-in-app { display: none !important; }
+  }
+  &.in-app {
+    .show-in-webclient { display: none !important; }
+  }
+
   .inner-wrapper {
     background-image: url('./background-land.jpg');
     background-position: center center;

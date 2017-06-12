@@ -39,6 +39,13 @@ html, body {
   background-repeat: no-repeat;
   background-size: cover;
 
+  &.in-webclient {
+    .show-in-app { display: none !important; }
+  }
+  &.in-app {
+    .show-in-webclient { display: none !important; }
+  }
+
   @media screen and (orientation: portrait) {
     background-image: url('./background-port.jpg');
   }
