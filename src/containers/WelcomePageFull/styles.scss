@@ -39,11 +39,11 @@ html, body {
   background-repeat: no-repeat;
   background-size: cover;
 
-  &.in-webclient {
-    .show-in-app { display: none !important; }
+  .env-webclient {
+    .only-in-app { display: none !important; }
   }
-  &.in-app {
-    .show-in-webclient { display: none !important; }
+  .env-app {
+    .only-in-webclient { display: none !important; }
   }
 
   @media screen and (orientation: portrait) {

@@ -169,7 +169,7 @@ export default class WelcomePage extends Component {
       createElement('a', {
         href: `kkbox://act_open,${WelcomePage.Config.EXTERNAL_LINK}`,
         key: 'in-app',
-        className: `${WelcomePage.ClassNames.ButtonExternalLink} show-in-app`,
+        className: `${WelcomePage.ClassNames.ButtonExternalLink} only-in-app`,
         onClick: this.onExternalLinkClick,
       },
         createElement('img', {
@@ -189,7 +189,7 @@ export default class WelcomePage extends Component {
         target: '_blank',
         href: WelcomePage.Config.EXTERNAL_LINK,
         key: 'in-webclient',
-        className: `${WelcomePage.ClassNames.ButtonExternalLink} show-in-webclient`,
+        className: `${WelcomePage.ClassNames.ButtonExternalLink} only-in-webclient`,
         onClick: this.onExternalLinkClick,
       },
         createElement('img', {
@@ -344,7 +344,7 @@ export default class WelcomePage extends Component {
 
     const className = [
       `show-button-${WelcomePage.Config.SECONDARY_BUTTON}`,
-      this.isWebClient ? 'in-webclient' : 'in-app',
+      this.isWebClient ? 'env-webclient' : 'env-app',
       UNSUPPORT_EXTERNAL_LINK ? WelcomePage.ClassNames.UnsupportExternalLink : null,
     ]
       .filter(Boolean)
