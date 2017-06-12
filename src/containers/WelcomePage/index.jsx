@@ -1,10 +1,10 @@
 import React, { createElement, Component, PropTypes } from 'react';
 import ExecutionEnvironment from 'fbjs/lib/ExecutionEnvironment';
-import { listen } from 'fbjs/lib/EventListener';
 
 import FullPage from '../../components/FullPage';
 import Device from '../../helpers/device';
 import Detection from '../../helpers/detection';
+import webClientHandshake from '../../helpers/webClientHandshake';
 
 const KKBOXProtocol = {
   NextSlot: 'kkbox://sponsored_premium_v2_goto_next_slot',
@@ -76,6 +76,7 @@ export default class WelcomePage extends Component {
   constructor(props) {
     super(props);
 
+    this.isWebClient = false;
     this.finishSP = this.finishSP.bind(this);
     this.onPlayitClick = this.onPlayitClick.bind(this);
     this.onPlaylistClick = this.onPlaylistClick.bind(this);
@@ -164,31 +165,56 @@ export default class WelcomePage extends Component {
       }),
     ]);
     // 三種按鈕 - 外連
-    const buttonExternalLink = createElement('a', {
-      target: '_blank',
-      href: WelcomePage.Config.EXTERNAL_LINK,
-      key: WelcomePage.Keys.ButtonExternalLink,
-      className: WelcomePage.ClassNames.ButtonExternalLink,
-      onClick: this.onExternalLinkClick,
-    }, [
-      createElement('img', {
-        key: WelcomePage.Keys.ButtonImageInLandscape,
-        className: WelcomePage.ClassNames.ButtonImageInLandscape,
-        src: pathButtonExternalLand,
-        alt: '了解更多',
-      }),
-      createElement('img', {
-        key: WelcomePage.Keys.ButtonImageInPortrait,
-        className: WelcomePage.ClassNames.ButtonImageInPortrait,
-        src: pathButtonExternalPort,
-        alt: '了解更多',
-      }),
-    ]);
+    const buttonExternalLinks = [
+      createElement('a', {
+        href: `kkbox://act_open,${WelcomePage.Config.EXTERNAL_LINK}`,
+        key: 'in-app',
+        className: `${WelcomePage.ClassNames.ButtonExternalLink} only-in-app`,
+        onClick: this.onExternalLinkClick,
+      },
+        createElement('img', {
+          key: WelcomePage.Keys.ButtonImageInLandscape,
+          className: WelcomePage.ClassNames.ButtonImageInLandscape,
+          src: pathButtonExternalLand,
+          alt: '了解更多',
+        }),
+        createElement('img', {
+          key: WelcomePage.Keys.ButtonImageInPortrait,
+          className: WelcomePage.ClassNames.ButtonImageInPortrait,
+          src: pathButtonExternalPort,
+          alt: '了解更多',
+        }),
+      ),
+      createElement('a', {
+        target: '_blank',
+        href: WelcomePage.Config.EXTERNAL_LINK,
+        key: 'in-webclient',
+        className: `${WelcomePage.ClassNames.ButtonExternalLink} only-in-webclient`,
+        onClick: this.onExternalLinkClick,
+      },
+        createElement('img', {
+          key: WelcomePage.Keys.ButtonImageInLandscape,
+          className: WelcomePage.ClassNames.ButtonImageInLandscape,
+          src: pathButtonExternalLand,
+          alt: '了解更多',
+        }),
+        createElement('img', {
+          key: WelcomePage.Keys.ButtonImageInPortrait,
+          className: WelcomePage.ClassNames.ButtonImageInPortrait,
+          src: pathButtonExternalPort,
+          alt: '了解更多',
+        }),
+      ),
+    ];
     // 三種按鈕 - 包裝
     this.buttons = createElement('div', {
       key: WelcomePage.Keys.Buttons,
       className: WelcomePage.ClassNames.Buttons,
-    }, [buttonPlaylist, buttonExternalLink, buttonPlayIt]);
+    },
+      buttonPlaylist,
+      buttonExternalLinks,
+      buttonPlayIt
+    );
     // 升級白金會員 - 寬版
     this.premiumTextLand = createElement('a', {
       key: WelcomePage.Keys.PremiumLandWrapper,
@@ -224,11 +250,8 @@ export default class WelcomePage extends Component {
       if (typeof logStayTime === 'function') this.onPageLeave = logStayTime;
     }
 
-    listen(window, 'message', (ev) => {
-      if (ev.data === 'webclient') {
-        this.isWebClient = true;
-      }
-    });
+    // 跟 WebClient Handshake
+    webClientHandshake(this.setAppInWebClient.bind(this));
   }
 
   onExternalLinkClick() {
@@ -284,6 +307,9 @@ export default class WelcomePage extends Component {
     return 0;
   }
 
+  /** 指定 App 位於 Web Client 中 (browser iframe) */
+  setAppInWebClient() { this.isWebClient = true; }
+
   finishSP(dom) {
     this.onPageLeave();
     const { href, click } = dom;
@@ -316,14 +342,16 @@ export default class WelcomePage extends Component {
   render() {
     const { UNSUPPORT_EXTERNAL_LINK } = Detection;
 
-    const classNames = [
+    const className = [
       `show-button-${WelcomePage.Config.SECONDARY_BUTTON}`,
-    ];
-
-    if (UNSUPPORT_EXTERNAL_LINK) classNames.push(WelcomePage.ClassNames.UnsupportExternalLink);
+      this.isWebClient ? 'env-webclient' : 'env-app',
+      UNSUPPORT_EXTERNAL_LINK ? WelcomePage.ClassNames.UnsupportExternalLink : null,
+    ]
+      .filter(Boolean)
+      .join(' ');
 
     return createElement(FullPage, {
-      className: classNames.join(' '),
+      className,
     }, this.contents);
   }
 }
