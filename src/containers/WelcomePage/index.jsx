@@ -165,54 +165,34 @@ export default class WelcomePage extends Component {
       }),
     ]);
     // 三種按鈕 - 外連
-    const buttonExternalLinks = [
-      createElement('a', {
-        href: `kkbox://act_open,${WelcomePage.Config.EXTERNAL_LINK}`,
-        key: 'in-app',
-        className: `${WelcomePage.ClassNames.ButtonExternalLink} only-in-app`,
-        onClick: this.onExternalLinkClick,
-      },
-        createElement('img', {
-          key: WelcomePage.Keys.ButtonImageInLandscape,
-          className: WelcomePage.ClassNames.ButtonImageInLandscape,
-          src: pathButtonExternalLand,
-          alt: '了解更多',
-        }),
-        createElement('img', {
-          key: WelcomePage.Keys.ButtonImageInPortrait,
-          className: WelcomePage.ClassNames.ButtonImageInPortrait,
-          src: pathButtonExternalPort,
-          alt: '了解更多',
-        }),
-      ),
-      createElement('a', {
-        target: '_blank',
-        href: WelcomePage.Config.EXTERNAL_LINK,
-        key: 'in-webclient',
-        className: `${WelcomePage.ClassNames.ButtonExternalLink} only-in-webclient`,
-        onClick: this.onExternalLinkClick,
-      },
-        createElement('img', {
-          key: WelcomePage.Keys.ButtonImageInLandscape,
-          className: WelcomePage.ClassNames.ButtonImageInLandscape,
-          src: pathButtonExternalLand,
-          alt: '了解更多',
-        }),
-        createElement('img', {
-          key: WelcomePage.Keys.ButtonImageInPortrait,
-          className: WelcomePage.ClassNames.ButtonImageInPortrait,
-          src: pathButtonExternalPort,
-          alt: '了解更多',
-        }),
-      ),
-    ];
+    const buttonExternalLink = createElement('a', {
+      target: '_blank',
+      href: WelcomePage.Config.EXTERNAL_LINK,
+      key: 'ext-link',
+      className: WelcomePage.ClassNames.ButtonExternalLink,
+      onClick: this.onExternalLinkClick,
+    },
+      createElement('img', {
+        key: WelcomePage.Keys.ButtonImageInLandscape,
+        className: WelcomePage.ClassNames.ButtonImageInLandscape,
+        src: pathButtonExternalLand,
+        alt: '了解更多',
+      }),
+      createElement('img', {
+        key: WelcomePage.Keys.ButtonImageInPortrait,
+        className: WelcomePage.ClassNames.ButtonImageInPortrait,
+        src: pathButtonExternalPort,
+        alt: '了解更多',
+      }),
+    );
+
     // 三種按鈕 - 包裝
     this.buttons = createElement('div', {
       key: WelcomePage.Keys.Buttons,
       className: WelcomePage.ClassNames.Buttons,
     },
       buttonPlaylist,
-      buttonExternalLinks,
+      buttonExternalLink,
       buttonPlayIt
     );
     // 升級白金會員 - 寬版
