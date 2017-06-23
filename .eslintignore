@@ -1,2 +1,3 @@
-webpack.config.*
-production-build.js
+webpack.config.js
+scripts/*.js
+public/*
