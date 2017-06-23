@@ -5,3 +5,4 @@ dist
 config.json
 res/
 build/
+public/*-*
