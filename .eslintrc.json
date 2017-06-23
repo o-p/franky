@@ -15,8 +15,5 @@
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true
     }
-  },
-  "globals": {
-    "STANDARD_WELCOME_PAGE": false
   }
 }
