@@ -91,6 +91,22 @@ export default {
       contents: [
         {
           type: 'fileUploader',
+          name: 'home-land.jpg',
+          fileType: 'jpb',
+          text: '水平 - 底圖 JPG',
+          preview: true,
+          hint: '靠上對齊, 下方有空間會顯示底色',
+        },
+        {
+          type: 'fileUploader',
+          name: 'home-port.jpg',
+          fileType: 'jpb',
+          text: '垂直 - 底圖 JPG',
+          preview: true,
+          hint: '靠上對齊, 下方有空間會顯示底色',
+        },
+        {
+          type: 'fileUploader',
           name: 'home-text-land.svg',
           fileType: 'svg',
           text: '水平 - 內文 SVG',
