@@ -674,6 +674,32 @@ export default {
             ['pages', 5, 'responsiveResult', 'altContent'],
           ],
         },
+        // 按鈕文字
+        {
+          type: 'subtitle',
+          text: '按鈕文案',
+        },
+        {
+          type: 'text',
+          path: ['pages', 3, 'responsiveResult', 'buttons', 0, 'text'],
+          text: '[開始聽歌]按鈕',
+          mirror: [
+            ['pages', 5, 'responsiveResult', 'buttons', 0, 'text'],
+          ],
+        },
+        {
+          type: 'text',
+          path: ['pages', 3, 'responsiveResult', 'buttons', 1, 'text'],
+          text: '[撥放歌單]按鈕',
+          mirror: [
+            ['pages', 5, 'responsiveResult', 'buttons', 1, 'text'],
+          ],
+        },
+        {
+          type: 'text',
+          path: ['pages', 3, 'responsiveResult', 'buttons', 2, 'text'],
+          text: '[提供資料]按鈕',
+        },
         // 活動辦法
         {
           type: 'subtitle',
