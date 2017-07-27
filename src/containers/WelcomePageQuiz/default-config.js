@@ -238,7 +238,7 @@ export default {
     /** 完成任務 */
     {
       pageName: 'complete',
-      types: ['responsiveResult'],
+      types: ['responsiveResult', 'imageModal'],
       responsiveResult: {
         switcher: 'quiz',
         // 這邊如果不加上 show-custom-bg, 會使用共用的 img complete-00-{ori}.port
@@ -335,6 +335,7 @@ export default {
           },
         },
         altContent: '完成任務 - 留下資料',
+        hasEventInfo: true,
         imagePortrait: require('./img/complete-00-port.jpg'),
         svgTextLand: require('./img/complete-text-land.svg'),
         svgTextPort: require('./img/complete-text-port.svg'),
@@ -343,6 +344,10 @@ export default {
           { type: 'view_playlist', text: '撥放歌單' },
           { type: 'show_page', text: '提供資料', value: 'feed' },
         ],
+      },
+      imageModal: {
+        land: require('./img/complete-info-land.png'),
+        port: require('./img/complete-info-port.png'),
       },
     },
     /** 使用者提供資料 */
@@ -373,7 +378,7 @@ export default {
     /** 完成任務並送出資料 */
     {
       pageName: 'complete data-sent',
-      types: ['responsiveResult'],
+      types: ['responsiveResult', 'imageModal'],
       responsiveResult: {
         switcher: 'quiz',
         results: {
@@ -469,6 +474,7 @@ export default {
           },
         },
         altContent: '完成任務 - 開始聽歌',
+        hasEventInfo: true,
         imagePortrait: require('./img/complete-00-port.jpg'),
         svgTextLand: require('./img/complete-text-land.svg'),
         svgTextPort: require('./img/complete-text-port.svg'),
@@ -476,6 +482,10 @@ export default {
           { type: 'playit', text: '開始聽歌' },
           { type: 'view_playlist', text: '撥放歌單' },
         ],
+      },
+      imageModal: {
+        land: require('./img/complete-info-land.png'),
+        port: require('./img/complete-info-port.png'),
       },
     },
   ],

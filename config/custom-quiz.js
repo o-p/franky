@@ -658,6 +658,35 @@ export default {
             ['pages', 5, 'responsiveResult', 'altContent'],
           ],
         },
+        // 活動辦法
+        {
+          type: 'subtitle',
+          text: '活動辦法',
+        },
+        {
+          type: 'valueSwitcher',
+          path: ['pages', 3, 'responsiveResult', 'hasEventInfo'],
+          mirror: [
+            ['pages', 5, 'responsiveResult', 'hasEventInfo'],
+          ],
+          text: '活動說明',
+          on: true,
+          off: false,
+        },
+        {
+          type: 'fileUploader',
+          name: 'complete-info-land.png',
+          fileType: 'png',
+          text: '水平 - 活動辦法 PNG',
+          preview: true,
+        },
+        {
+          type: 'fileUploader',
+          name: 'complete-info-port.png',
+          fileType: 'png',
+          text: '垂直 - 活動辦法 PNG',
+          preview: true,
+        },
         // #A1
         {
           type: 'subtitle',
