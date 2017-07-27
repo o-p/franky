@@ -94,7 +94,7 @@ export default class InteractiveFramework extends Component {
     this.linkProvider = this.linkProvider.bind(this);
     this.onPlayItClick = this.onPlayItClick.bind(this);
     this.onPlaylistClick = this.onPlaylistClick.bind(this);
-    this.readEventInfo = () => tracker.customerEvent('readEventInfo');
+    this.readEventInfo = () => tracker.customEvent('readEventInfo');
     this.toStep = this.toStep.bind(this);
     this.trackAnswer = this.trackAnswer.bind(this);
     this.trackPageView = this.trackPageView.bind(this);

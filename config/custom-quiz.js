@@ -91,6 +91,22 @@ export default {
       contents: [
         {
           type: 'fileUploader',
+          name: 'home-land.jpg',
+          fileType: 'jpb',
+          text: '水平 - 底圖 JPG',
+          preview: true,
+          hint: '靠上對齊, 下方有空間會顯示底色',
+        },
+        {
+          type: 'fileUploader',
+          name: 'home-port.jpg',
+          fileType: 'jpb',
+          text: '垂直 - 底圖 JPG',
+          preview: true,
+          hint: '靠上對齊, 下方有空間會顯示底色',
+        },
+        {
+          type: 'fileUploader',
           name: 'home-text-land.svg',
           fileType: 'svg',
           text: '水平 - 內文 SVG',
@@ -658,6 +674,61 @@ export default {
             ['pages', 5, 'responsiveResult', 'altContent'],
           ],
         },
+        // 按鈕文字
+        {
+          type: 'subtitle',
+          text: '按鈕文案',
+        },
+        {
+          type: 'text',
+          path: ['pages', 3, 'responsiveResult', 'buttons', 0, 'text'],
+          text: '[開始聽歌]按鈕',
+          mirror: [
+            ['pages', 5, 'responsiveResult', 'buttons', 0, 'text'],
+          ],
+        },
+        {
+          type: 'text',
+          path: ['pages', 3, 'responsiveResult', 'buttons', 1, 'text'],
+          text: '[撥放歌單]按鈕',
+          mirror: [
+            ['pages', 5, 'responsiveResult', 'buttons', 1, 'text'],
+          ],
+        },
+        {
+          type: 'text',
+          path: ['pages', 3, 'responsiveResult', 'buttons', 2, 'text'],
+          text: '[提供資料]按鈕',
+        },
+        // 活動辦法
+        {
+          type: 'subtitle',
+          text: '活動辦法',
+        },
+        {
+          type: 'valueSwitcher',
+          path: ['pages', 3, 'responsiveResult', 'hasEventInfo'],
+          mirror: [
+            ['pages', 5, 'responsiveResult', 'hasEventInfo'],
+          ],
+          text: '活動說明',
+          on: true,
+          off: false,
+        },
+        {
+          type: 'fileUploader',
+          name: 'complete-info-land.png',
+          fileType: 'png',
+          text: '水平 - 說明 PNG',
+          preview: true,
+        },
+        {
+          type: 'fileUploader',
+          name: 'complete-info-port.png',
+          fileType: 'png',
+          text: '垂直 - 說明 PNG',
+          preview: true,
+        },
         // #A1
         {
           type: 'subtitle',
@@ -676,14 +747,14 @@ export default {
         {
           type: 'fileUploader',
           name: 'complete-01-land.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A1 水平 JPG',
           preview: true,
         },
         {
           type: 'fileUploader',
           name: 'complete-01-port.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A1 垂直 JPG',
           preview: true,
         },
@@ -705,14 +776,14 @@ export default {
         {
           type: 'fileUploader',
           name: 'complete-02-land.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A2 水平 JPG',
           preview: true,
         },
         {
           type: 'fileUploader',
           name: 'complete-02-port.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A2 垂直 JPG',
           preview: true,
         },
@@ -734,14 +805,14 @@ export default {
         {
           type: 'fileUploader',
           name: 'complete-03-land.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A3 水平 JPG',
           preview: true,
         },
         {
           type: 'fileUploader',
           name: 'complete-03-port.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A3 垂直 JPG',
           preview: true,
         },
@@ -763,14 +834,14 @@ export default {
         {
           type: 'fileUploader',
           name: 'complete-04-land.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A4 水平 JPG',
           preview: true,
         },
         {
           type: 'fileUploader',
           name: 'complete-04-port.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A4 垂直 JPG',
           preview: true,
         },
@@ -792,14 +863,14 @@ export default {
         {
           type: 'fileUploader',
           name: 'complete-05-land.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A5 水平 JPG',
           preview: true,
         },
         {
           type: 'fileUploader',
           name: 'complete-05-port.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A5 垂直 JPG',
           preview: true,
         },
@@ -821,14 +892,14 @@ export default {
         {
           type: 'fileUploader',
           name: 'complete-06-land.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A6 水平 JPG',
           preview: true,
         },
         {
           type: 'fileUploader',
           name: 'complete-06-port.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A6 垂直 JPG',
           preview: true,
         },
@@ -850,14 +921,14 @@ export default {
         {
           type: 'fileUploader',
           name: 'complete-07-land.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A7 水平 JPG',
           preview: true,
         },
         {
           type: 'fileUploader',
           name: 'complete-07-port.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A7 垂直 JPG',
           preview: true,
         },
@@ -879,14 +950,14 @@ export default {
         {
           type: 'fileUploader',
           name: 'complete-08-land.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A8 水平 JPG',
           preview: true,
         },
         {
           type: 'fileUploader',
           name: 'complete-08-port.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A8 垂直 JPG',
           preview: true,
         },
@@ -908,14 +979,14 @@ export default {
         {
           type: 'fileUploader',
           name: 'complete-09-land.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A9 水平 JPG',
           preview: true,
         },
         {
           type: 'fileUploader',
           name: 'complete-09-port.jpg',
-          fileType: 'svg',
+          fileType: 'jpg',
           text: '#A9 垂直 JPG',
           preview: true,
         },
