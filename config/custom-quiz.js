@@ -719,14 +719,14 @@ export default {
           type: 'fileUploader',
           name: 'complete-info-land.png',
           fileType: 'png',
-          text: '水平 - 活動辦法 PNG',
+          text: '水平 - 說明 PNG',
           preview: true,
         },
         {
           type: 'fileUploader',
           name: 'complete-info-port.png',
           fileType: 'png',
-          text: '垂直 - 活動辦法 PNG',
+          text: '垂直 - 說明 PNG',
           preview: true,
         },
         // #A1
