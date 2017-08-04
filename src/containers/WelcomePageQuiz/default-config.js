@@ -14,6 +14,7 @@ export default {
       types: ['result', 'goPremium'],
       result: {
         altContent: '開始測驗',
+        scrollToBottom: false,
         svgTextLand: require('./img/home-text-land.svg'),
         svgTextPort: require('./img/home-text-port.svg'),
         buttons: [
