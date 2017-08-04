@@ -33,7 +33,7 @@ $tiny-size-height: 0.4 * $standard-size-height;
   // 如果把這段放在 extend 中, 會被另外設定的 background-image 吃掉
   @media (orientation: portrait) {
     background-image: none;
-  } 
+  }
 };
 
 
@@ -65,17 +65,22 @@ $tiny-size-height: 0.4 * $standard-size-height;
       text-align: center;
     }
 
-    .result-contents {
-      width: 100%;
-      float: none;
-      height: auto;
+    .result {
+      .result-contents {
+        width: 100%;
+        float: none;
+        height: auto;
+      }
+
+      .result-text-content {
+        max-height: 10em;
+        max-width: 90%;
+        margin: 0 auto 2em;
+      }
+
+      .result-buttons { @include container(); }
     }
-    .result-text-content {
-      max-height: 10em;
-      max-width: 90%;
-      margin: 0 auto 2em;
-    }
-    .result-buttons { @include container(); }
+
 
     @media (orientation: landscape) {
       .result-contents { padding: 0 20% 2em; }
@@ -107,7 +112,7 @@ $tiny-size-height: 0.4 * $standard-size-height;
           bottom: 0;
           left: 0;
           right: 0;
-        
+
           .result-text-content {
             width: 100%;
             max-width: none;
