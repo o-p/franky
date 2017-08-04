@@ -17,6 +17,7 @@ export default {
     {
       component: 'settingsPanel',
       title: { zh: '共用設定', en: 'Common Settings' },
+      defaultToggled: false,
       contents: [
         {
           type: 'text',
@@ -88,6 +89,7 @@ export default {
     {
       component: 'settingsPanel',
       title: { zh: '首頁', en: 'Home' },
+      defaultToggled: false,
       contents: [
         {
           type: 'fileUploader',
@@ -200,6 +202,7 @@ export default {
     {
       component: 'settingsPanel',
       title: { zh: '題組 A', en: 'Group A' },
+      defaultToggled: false,
       contents: [
         {
           type: 'fileUploader',
@@ -410,6 +413,7 @@ export default {
     {
       component: 'settingsPanel',
       title: { zh: '題組 B', en: 'Group B' },
+      defaultToggled: false,
       contents: [
         {
           type: 'fileUploader',
@@ -620,6 +624,7 @@ export default {
     {
       component: 'settingsPanel',
       title: { zh: '任務完成頁', en: 'Task Complete' },
+      defaultToggled: false,
       contents: [
         {
           type: 'valueSwitcher',
@@ -1264,6 +1269,7 @@ export default {
     {
       component: 'settingsPanel',
       title: { zh: '填寫資料', en: 'Submit Personal Info' },
+      defaultToggled: false,
       contents: [
         {
           type: 'fileUploader',

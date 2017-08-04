@@ -43,12 +43,14 @@ class SettingsPanel extends Component {
   render() {
     return createElement(Panel, {
       title: this.title,
+      defaultToggled: this.props.defaultToggled,
     }, ...this.contents);
   }
 }
 
 SettingsPanel.propTypes = {
   contents: PropTypes.array,
+  defaultToggled: PropTypes.bool,
 };
 
 export const settingsPanel = createFactory(SettingsPanel);
