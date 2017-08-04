@@ -23,9 +23,14 @@ const propTypes = {
   className: PropTypes.string,
   imageLandscape: PropTypes.string,
   imagePortrait: PropTypes.string,
+  scrollToBottom: PropTypes.bool,
   svgTextLand: PropTypes.string,
   svgTextPort: PropTypes.string,
   hasEventInfo: PropTypes.bool,
+};
+
+const defaultProps = {
+  scrollToBottom: true,
 };
 
 export default class Result extends Component {
@@ -54,7 +59,7 @@ export default class Result extends Component {
   }
 
   componentDidMount() {
-    window.setTimeout(this.scrollToBottom, 100);
+    if (this.props.scrollToBottom) window.setTimeout(this.scrollToBottom, 100);
   }
 
   getTextClientEventHandler() {
@@ -162,6 +167,7 @@ export default class Result extends Component {
 }
 Result.propTypes = propTypes;
 Result.contextTypes = contextTypes;
+Result.defaultProps = defaultProps;
 
 const result = createFactory(Result);
 
