@@ -12,12 +12,19 @@ export default class FileUploader extends Component {
   render() {
     const { name, fileType, text, hint, preview } = this.props;
 
-    const thePreview = preview ? div({
-      className: 'file-uploader--preview',
-    }, img({
-      className: 'preview-image',
-      src: `preview/assets/${name}`,
-    })) : null;
+    const thePreview = preview ?
+      div({
+        className: 'file-uploader--preview',
+      },
+        img({
+          className: 'preview-image',
+          src: `preview/assets/${name}`,
+        }),
+        span({
+          className: 'preview-filename',
+        }, name)
+      )
+      : null;
 
     const btn = createElement(DropButton, {
       key: name,
