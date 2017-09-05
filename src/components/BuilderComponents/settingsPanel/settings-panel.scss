@@ -23,7 +23,7 @@
 .settings-panel--value-switcher {
   max-width: 12em;
   margin-top: 1em;
-  
+
   &:first-child {
     margin-top: 0;
   }
@@ -37,7 +37,7 @@
 .settings-panel--file-uploader {
   display: inline-block;
   position: relative;
-  margin: 1em 1em 0 0; 
+  margin: 1em 1em 0 0;
 
   .file-uploader--preview {
     position: fixed;
@@ -51,6 +51,7 @@
     background-color: rgba(0, 0, 0, 0.5);
     z-index: 9999;
     border: 5px solid #fff;
+    border-bottom-width: 20px;
     border-radius: 3px;
     box-shadow: 1px 1px 5px #666;
 
@@ -58,6 +59,13 @@
       width: 100%;
       height: auto;
       display: block;
+    }
+
+    .preview-filename {
+      position: absolute;
+      right: 0;
+      color: #666;
+      font-size: 12px;
     }
   }
 
