@@ -1,6 +1,6 @@
-# LOKI
+# 自助式 SP Welcome Page 產生器
 
-自助式 SP Welcome Page 產生器
+透過介面生成各種 SP 常用 廣告類型
 
 # 建立 Project
 
@@ -15,9 +15,9 @@
 - 下載並安裝
 
     ```bash
-    git clone git@gitlab.kkinternal.com:AST/loki.git
+    git clone git@github.com:o-p/franky.git
 
-    cd loki
+    cd franky
     
     yarn install
     
